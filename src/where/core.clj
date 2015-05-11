@@ -1,13 +1,14 @@
 (ns where.core)
 
-(defn f-and [fs]
+(defn- f-and [fs]
   (fn [x]
     (loop [[f1 & fr] fs]
       (if-not f1
         true ;; reached the end
         (if (f1 x) (recur fr) false)))))
 
-(defn f-or [fs]
+
+(defn- f-or [fs]
   (fn [x]
     (loop [[f1 & fr] fs]
       (if-not f1
@@ -16,23 +17,18 @@
 
 
 (defn where
-  ([cond-specs]
-   (if (fn? cond-specs)
-     cond-specs
-     (let [op    (first cond-specs)
-           rules (if (or (= :or op) (= :and op))
-                   (rest cond-specs) cond-specs)
-           opr   (case op
-                   :or  f-or
-                   :and f-and)
-           ]
-       (opr (map (partial apply where) rules)))))
+  ([[op & rules :as cond-spec]]
+   (if (#{:or :and} op)
+     (let [cnds (map where rules)]
+       (case op
+         :or (f-or cnds)
+         :and (f-and cnds)))
+     (apply where cond-spec)))
   ([comparator value]
    (where identity comp value))
   ([extractor comparator value]
    (fn [item]
      (comparator (extractor item) value))))
-
 
 (defn load-data []
   (map (partial zipmap [:name :user :age :country :active])
