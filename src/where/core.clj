@@ -78,62 +78,64 @@
      (comparator (extractor item) value))))
 
 
-(filter (where  > 6) (range 20))
-(filter (where [:and [:country = "USA"] [:age > 18]]) users)
-
-
-(defn load-data []
-  (map (partial zipmap [:name :user :age :country :active])
-   (read-string (slurp "/workspace/oss/cascalog-examples/data/users.edn"))))
-
-
-#_(def users (load-data))
-
-(first users)
-
-(clojure.pprint/print-table
- [:name :user :age :country :active]
- (filter (where  [:and
-                  [:country = "Russia"]
-                  [:age     > 35]
-                  [:age     < 60]]) users))
-
-
-
-(clojure.pprint/print-table
- [:name :user :age :country :active]
- (filter (where  [:or
-                  [:country = "Russia"]
-                  [:country = "USA"]]) users))
-
-
-
-(clojure.pprint/print-table
- [:name :user :age :country :active]
- (filter (where  [:and
-                  [:or
-                   [:country = "Russia"]
-                   [:country = "USA"]]
-                  [:age     > 35]
-                  [:age     < 60]]) users))
-
-
-
 (comment
-  (def f1 (where :country = "Russia"))
-  (def f2 (where :country = "USA"))
-  (def f12 (where [:or f1 f2]))
-  (def f12 (f-or [f1 f2]))
+  (filter (where  > 6) (range 20))
+  (filter (where [:and [:country = "USA"] [:age > 18]]) users)
 
-  (def f3 (where :age     > 35))
-  (def f4 (where :age     < 60))
 
-  (def f1234 (where [:and f12 f3 f4]))
-  (def f1234 (f-and [f12 f3 f4]))
+  (defn load-data []
+    (map (partial zipmap [:name :user :age :country :active])
+         (read-string (slurp "/workspace/oss/cascalog-examples/data/users.edn"))))
+
+
+  #_(def users (load-data))
+
+  (first users)
 
   (clojure.pprint/print-table
    [:name :user :age :country :active]
-   (filter f1234 users))
+   (filter (where  [:and
+                    [:country = "Russia"]
+                    [:age     > 35]
+                    [:age     < 60]]) users))
 
 
-  )
+
+  (clojure.pprint/print-table
+   [:name :user :age :country :active]
+   (filter (where  [:or
+                    [:country = "Russia"]
+                    [:country = "USA"]]) users))
+
+
+
+  (clojure.pprint/print-table
+   [:name :user :age :country :active]
+   (filter (where  [:and
+                    [:or
+                     [:country = "Russia"]
+                     [:country = "USA"]]
+                    [:age     > 35]
+                    [:age     < 60]]) users))
+
+
+
+  (comment
+    (def f1 (where :country = "Russia"))
+    (def f2 (where :country = "USA"))
+    (def f12 (where [:or f1 f2]))
+    (def f12 (f-or [f1 f2]))
+
+    (def f3 (where :age     > 35))
+    (def f4 (where :age     < 60))
+
+    (def f1234 (where [:and f12 f3 f4]))
+    (def f1234 (f-and [f12 f3 f4]))
+
+    (clojure.pprint/print-table
+     [:name :user :age :country :active]
+     (filter f1234 users))
+
+
+    )
+)

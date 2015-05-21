@@ -8,5 +8,6 @@
   :dependencies [[org.clojure/clojure "1.6.0"]]
 
   :profiles {:uberjar {:aot :all}
-             :dev {:dependencies [[midje "1.6.3"]]
+             :dev {:resource-paths ["test-data"]
+                   :dependencies [[midje "1.6.3"]]
                    :plugins [[lein-midje "3.1.3"]]}})
