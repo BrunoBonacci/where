@@ -40,16 +40,53 @@
        )
 
 
+
 (facts "about `where`: stuff you can do with maps"
 
+       ;; simple map filtering
        (->> (filter (where :country = "USA") users)
             (map :country)
             (into #{}))
        => #{"USA"}
 
+
        (->> (filter (where :country not= "USA") users)
             (map :country)
             (into #{}))
        =not=> (contains #{"USA"})
+
+
+       (->> (filter (where :age > 18) users)
+            (map :age)
+            (reduce min))
+       => 19
+
+
+       (->> (filter (where (comp :high :scores) > 9000) users)
+            count)
+       => 134
+       )
+
+
+
+(facts "about `where`: stuff you can do with lists"
+
+       ;; simple list filtering
+       (filter (where > 5) (range 10))
+       => [6 7 8 9]
+
+
+       (let [square #(* % %)]
+         (filter (where square < 50) (range 10)))
+       => [0 1 2 3 4 5 6 7]
+       )
+
+
+
+(facts "about `where`: stuff you can do with sets"
+
+       ;; simple list filtering
+       (filter (where > 5) #{0 1 2 3 4 5 6 7 8 9} )
+       => (contains [6 7 8 9] :in-any-order)
 
        )
