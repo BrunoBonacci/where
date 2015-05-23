@@ -75,7 +75,7 @@ In order to show the following examples I suggest you clone this
 git repo and fire up a REPL.
 
 ```
-git clone https://github.com/BrunoBonacci/where
+git clone https://github.com/BrunoBonacci/where.git
 cd where
 lein repl
 
