@@ -121,6 +121,7 @@ prints the users list as a table in the `stdout`.
 ;; |      Gemma Foley |    gemma36 |   28 |          Italy |    true | {:high 6157, :last 2294, :min 1003} |
 ;; |    Ginger Garcia |   ginger55 |   28 |          India |   false | {:high 3729, :last 3568, :min 1254} |
 ;; => nil
+```
 
 ### Simple map filtering
 
