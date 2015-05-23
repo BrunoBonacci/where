@@ -43,6 +43,20 @@ Now assuming that you have a collection maps, called `users` which look like thi
  :scores {:high 6671, :last 4344, :min 2475}}
 ```
 
+The signature of the function is:
+
+```Clojure
+(where extractor comparator value)
+```
+
+  * `extractor` is a function which is applied to every item passed
+     and it has to extract the value from the map which ultimately
+     needs to be compared.
+  * `comparator` is any binary comparator such as: `=`, `not=`, `>`, `<`, etc
+     It is just a function with takes two value and return true or false
+  * `value` is the value to compare against.
+  
+
 Now If you want to filter out all the users who are older the 50
 you would write something like this:
 
