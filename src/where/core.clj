@@ -1,4 +1,8 @@
-(ns where.core)
+(ns where.core
+  "Provides a function called `where` which facilicate
+  the building of complex predicates for `filter`,
+  especially useful with maps.")
+
 
 (defn- f-and
   "Internal function which applies a logical AND to
