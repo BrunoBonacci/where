@@ -62,9 +62,9 @@
        => 19
 
 
-       (->> (filter (where (comp :high :scores) > 9000) users)
+       (->> (filter (where (comp :high :scores) > 9950) users)
             count)
-       => 134
+       => 4
        )
 
 
@@ -87,6 +87,87 @@
 
        ;; simple list filtering
        (filter (where > 5) #{0 1 2 3 4 5 6 7 8 9} )
-       => (contains [6 7 8 9] :in-any-order)
+       => (just [6 7 8 9] :in-any-order)
+
+       )
+
+
+
+(facts "about `where`: wrapping with brachets has the same behaviour of unwrapped"
+
+       ((where [:a = 1]) {:a 1})                =>      truthy
+       ((where [:a = 1]) {:a 2})                =>      falsey
+       ((where [:a = 1]) {:b 1})                =>      falsey
+       ((where [:a not= 1]) {:b 1})             =>      truthy
+       ((where [= 1]) 1)                        =>      truthy
+       ((where [not= 5]) 1)                     =>      truthy
+       ((where [> 5]) 3)                        =>      falsey
+
+       )
+
+
+
+(facts "about `where`: composing predicates with logical and"
+
+       ((where [:and [:a = 1] [:b = 2]])   {:a 1 :b 2})    =>      truthy
+       ((where [:and [:a = 1] [:b = 2]])   {:a 1 :b 1})    =>      falsey
+       ((where [:and [:a = 1] [:b = 2]])   {:a 2 :b 2})    =>      falsey
+       ((where [:and [:a = 1] [:b > 1]])   {:a 1 :b 2})    =>      truthy
+
+       ((where [:and [:a = 1] [:b > 1] [:b < 6]])   {:a 1 :b 2})    =>      truthy
+       ((where [:and [:a = 1] [:b > 1] [:b < 6]])   {:a 1 :b 6})    =>      falsey
+
+
+       (count
+        (filter (where  [:and
+                         [:country = "Russia"]
+                         [:age     > 35]
+                         [:age     < 60]]) users)) => 15
+       )
+
+
+
+(facts "about `where`: composing predicates with logical or"
+
+       ((where [:or [:a = 1] [:b = 2]])   {:a 1 :b 2})    =>      truthy
+       ((where [:or [:a = 1] [:b = 2]])   {:a 1 :b 1})    =>      truthy
+       ((where [:or [:a = 1] [:b = 2]])   {:a 3 :b 2})    =>      truthy
+
+       ((where [:or [:a = 1] [:b = 2]])   {:a 0 :b 0})    =>      falsey
+
+       ((where [:or [:a = 1] [:b < 1] [:b > 6]])   {:a 1 :b 2})    =>      truthy
+       ((where [:or [:a = 1] [:b < 1] [:b > 6]])   {:a 2 :b 0})    =>      truthy
+       ((where [:or [:a = 1] [:b < 1] [:b > 6]])   {:a 2 :b 9})    =>      truthy
+       ((where [:or [:a = 1] [:b < 1] [:b > 6]])   {:a 2 :b 2})    =>      falsey
+
+       )
+
+
+(facts "about `where`: composing predicates with both logical operators"
+
+
+       (->> (filter (where [:or [:country = "USA"] [:country = "Russia"]]) users)
+            (map :country)
+            (into #{}))
+       => #{"USA" "Russia"}
+
+       (let [result (filter (where [:and [:or [:country = "USA"] [:country = "Russia"]]
+                                    [:active = true]]) users)]
+         (->> result (map :country) (into #{}))
+         => #{"USA" "Russia"}
+
+         (some (complement :active) result)
+         => falsey
+
+         )
+
+       (count
+        (filter (where  [:and
+                         [:or
+                          [:country = "Russia"]
+                          [:country = "USA"]]
+                         [:age     > 35]
+                         [:age     < 60]]) users))  => 30
+
 
        )
