@@ -1,4 +1,4 @@
-(defproject com.brunobonacci/where "0.1.0-SNAPSHOT"
+(defproject com.brunobonacci/where "0.1.0"
   :description "Human readable conditions and `filter` best companion."
   :url "https://github.com/BrunoBonacci/where"
 
@@ -9,4 +9,7 @@
 
   :profiles {:dev {:resource-paths ["test-data"]
                    :dependencies [[midje "1.6.3"]]
-                   :plugins [[lein-midje "3.1.3"]]}})
+                   :plugins [[lein-midje "3.1.3"]]}}
+
+  :deploy-repositories[["clojars" {:url "https://clojars.org/repo/"
+                                   :sign-releases false}]])
