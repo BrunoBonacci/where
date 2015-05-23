@@ -135,7 +135,7 @@ Here results of `ptable` will be shortened for brevity the ellipsis
 ;; #(= (:country %) "Italy")
 
 ;; with where
-;; (where :country = "Italy"
+;; (where :country = "Italy")
 
 (ptable (filter (where :country = "Italy") users))
 
@@ -241,7 +241,7 @@ item/map you can compose your key functions to reach nested maps.
 ;; ...
 ```
 
-### More on `extractor`s
+### More on `extractor`
 
 Another interesting property of having the `extractor` as a function is that it can be replaced
 with anything you like which given a value return another value.
@@ -264,7 +264,7 @@ more than 15 characters we can write:
 ;; ...
 ```
 
-### More on `comparator`s
+### More on `comparator`
 
 The `comparator` function is a function which takes two values and
 return a truthy or a falsey value.  So you can easily write your own
