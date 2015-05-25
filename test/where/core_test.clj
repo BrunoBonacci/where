@@ -161,13 +161,26 @@
 
          )
 
+       ;; outer AND composition
        (count
         (filter (where  [:and
                          [:or
                           [:country = "Russia"]
                           [:country = "USA"]]
                          [:age     > 35]
-                         [:age     < 60]]) users))  => 30
+                         [:age     < 60]])
+                users))  => 30
 
 
+       ;; outer OR composition
+       (count
+        (filter (where  [:or
+                         [:and
+                          [:age = 35]
+                          [:country = "USA"]]
+                         [:and
+                          [:age > 35]
+                          [:age < 55]
+                          [:country = "Russia"]]]
+                        ) users))  => 10
        )
