@@ -1,6 +1,8 @@
 # where
 
 Human readable conditions and `filter` best companion.
+A Clojure and ClojureScript library to write expressive
+predicate functions.
 
 ## Motivations
 
@@ -23,12 +25,12 @@ which match a specific condition.
 
 To use this library add the following dependency in your `project.clj`
 
-    [com.brunobonacci/where "0.1.0"]
+    [com.brunobonacci/where "0.2.0"]
 
 then require the library
 
 ```Clojure
-(ns your.ns
+(ns your-ns
   (:require [where.core :refer [where]])
 ```
 
