@@ -27,6 +27,8 @@ To use this library add the following dependency in your `project.clj`
 
     [com.brunobonacci/where "0.2.0"]
 
+Latest version: [![where](https://img.shields.io/clojars/v/com.brunobonacci/where.svg)](https://clojars.org/com.brunobonacci/where)
+
 then require the library
 
 ```Clojure
@@ -57,7 +59,7 @@ The signature of the function is:
   * `comparator` is any binary comparator such as: `=`, `not=`, `>`, `<`, etc
      It is just a function with takes two value and return true or false
   * `value` is the value to compare against.
-  
+
 
 Now If you want to filter out all the users who are older the 50
 you would write something like this:
