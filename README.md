@@ -308,6 +308,11 @@ For example:
 (filter (where ends-with "er") ["warrior" "singer" "player"])
 ;; => ("singer" "player")
 ```
+
+## Development
+
+CI status: [![CircleCI](https://circleci.com/gh/BrunoBonacci/where.svg?style=svg)](https://circleci.com/gh/BrunoBonacci/where)
+
 ## TODOs
 
 Here are things I'm considering to add.
