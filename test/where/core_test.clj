@@ -184,3 +184,74 @@
                           [:country = "Russia"]]]
                         ) users))  => 10
        )
+
+
+
+
+
+(tabular
+ (fact "`where`: with DSL operators with strings"
+
+        ((where ?operator ?target) ?value) => ?result)
+
+ ?value        ?operator          ?target        ?result
+ "value"       :is                "value"        truthy
+ "value1"      :is                "value"        falsey
+
+ "value"       :is-not            "value"        falsey
+ "value1"      :is-not            "value"        truthy
+
+ "value"       :starts-with?      "val"          truthy
+ "notval"      :starts-with?      "value"        falsey
+ nil           :starts-with?      "value"        falsey
+ "value"       :starts-with?      nil            falsey
+
+ "value"       :ends-with?        "lue"          truthy
+ "notval"      :ends-with?        "value"        falsey
+ nil           :ends-with?        "value"        falsey
+ "value"       :ends-with?        nil            falsey
+
+ "values"      :contains?         "lue"          truthy
+ "notval"      :contains?         "value"        falsey
+ nil           :contains?         "value"        falsey
+ "value"       :contains?         nil            falsey
+
+ "values"      :not-contains?     "lue"          falsey
+ "notval"      :not-contains?     "value"        truthy
+ nil           :not-contains?     "value"        truthy
+ "value"       :not-contains?     nil            truthy
+
+ "value 123"   :matches?           #"\w+ \d+"    truthy
+ "value 123"   :matches?           #"\d+"        truthy
+ "value 123"   :matches?           #"^\d+$"      falsey
+ "123"         :matches?           #"^\d+$"      truthy
+ nil           :matches?           #"^\d+$"      falsey
+ "123"         :matches?           nil           falsey
+ )
+
+
+
+(tabular
+ (fact "`where`: with DSL operators with numbers"
+
+        ((where ?operator ?target) ?value) => ?result)
+
+ ?value        ?operator          ?target        ?result
+ 42            :between?          [35 45]        truthy
+ 35            :between?          [35 45]        truthy
+ 45            :between?          [35 45]        truthy
+ 34            :between?          [35 45]        falsey
+ 46            :between?          [35 45]        falsey
+
+ 42            :strictly-between? [35 45]        truthy
+ 35            :strictly-between? [35 45]        falsey
+ 45            :strictly-between? [35 45]        falsey
+ 34            :strictly-between? [35 45]        falsey
+ 46            :strictly-between? [35 45]        falsey
+
+ 42            :range?            [35 45]        truthy
+ 35            :range?            [35 45]        truthy
+ 45            :range?            [35 45]        falsey
+ 34            :range?            [35 45]        falsey
+ 46            :range?            [35 45]        falsey
+ )
