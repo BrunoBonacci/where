@@ -255,3 +255,20 @@
  34            :range?            [35 45]        falsey
  46            :range?            [35 45]        falsey
  )
+
+
+(tabular
+ (fact "`where`: with DSL generic operators"
+
+        ((where ?operator ?target) ?value) => ?result)
+
+ ?value        ?operator          ?target          ?result
+ "v1"          :in?               ["v1" "v2" "v3"] truthy
+ "v3"          :in?               ["v1" "v2" "v3"] truthy
+ "not-present" :in?               ["v1" "v2" "v3"] falsey
+ "not-present" :in?               []               falsey
+ "not-present" :in?               nil              falsey
+ nil           :in?               ["v1" "v2" "v3"] falsey
+ nil           :in?               nil              falsey
+
+ )

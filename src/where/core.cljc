@@ -32,30 +32,45 @@
 
 
 (def ^{:private true} operators-map
-  (let [_gen  {:is     =
-               :is-not not=
-               ;; TODO: :in?
-               ;; TODO: one-of?
+  (let [_gen  {:is      (fn [extractor _ value]
+                          (fn [item]
+                            (= (extractor item) value)))
+               :is-not  (fn [extractor _ value]
+                          (fn [item]
+                            (not= (extractor item) value)))
+               :in?     (fn [extractor _ values]
+                          (let [vs (set values)]
+                            (fn [item]
+                              (vs (extractor item)))))
                }
         ;;
         ;; String operators
         ;;
         _str {
-              :starts-with? (fn [^String s ^String sv]
-                              (when (and s sv)
-                                (.startsWith s sv)))
+              :starts-with? (fn [extractor _ ^String value]
+                              (fn [item]
+                                (let [^String s (extractor item)]
+                                  (when (and s value)
+                                    (.startsWith s value)))))
 
-              :ends-with?   (fn [^String s ^String sv]
-                              (when (and s sv)
-                                (.endsWith s sv)))
+              :ends-with?   (fn [extractor _ ^String value]
+                              (fn [item]
+                                (let [^String s (extractor item)]
+                                  (when (and s value)
+                                    (.endsWith s value)))))
 
-              :contains?    (fn [^String s ^String sv]
-                              (when (and s sv)
-                                (not= -1 (.indexOf s sv))))
+              :contains?    (fn [extractor _ ^String value]
+                              (fn [item]
+                                (let [^String s (extractor item)]
+                                  (when (and s value)
+                                    (not= -1 (.indexOf s value))))))
 
-              :matches?    (fn [^String s ^java.util.regex.Pattern p]
-                             (when (and s p)
-                               (re-find p s)))
+              :matches?    (fn [extractor _ ^java.util.regex.Pattern value]
+                             (fn [item]
+                               (let [^String s (extractor item)]
+                                 (when (and s value)
+                                   (re-find value s)))))
+
               ;; TODO: :matches-date?
               ;; TODO: :like?
               }
@@ -63,32 +78,43 @@
                       (mapcat (fn [[op f]]
                                 [[op f]
                                  [(keyword (str "not-" (name op)))
-                                  (complement f)]]))
+                                  (fn [extractor comparator value]
+                                    (complement
+                                     (f extractor comparator value)))]]))
                       (into {}))
         ;;
         ;; Numerical operators
         ;;
-        _num {:between? (fn [n [low high]]
-                          (<= low n high))
+        _num {:between? (fn [extractor _ [v1 v2]]
+                          (let [low (min v1 v2)
+                                high (max v1 v2)]
+                            (fn [item]
+                              (<= low item high))))
 
-              :strictly-between? (fn [n [low high]]
-                                   (< low n high))
+              :strictly-between? (fn [extractor _ [v1 v2]]
+                                   (let [low (min v1 v2)
+                                         high (max v1 v2)]
+                                     (fn [item]
+                                       (< low item high))))
 
-              :range?   (fn [n [low high]]
-                          (or (= low n) (< low n high)))}]
+              :range?   (fn [extractor _ [v1 v2]]
+                          (let [low (min v1 v2)
+                                high (max v1 v2)]
+                            (fn [item]
+                              (or (= low item) (< low item high)))))}]
     (merge _gen _str _str-not _num)))
 
 
 
 (defn- operator
   [extractor comparator value]
-  (let [comparator' (if (keyword? comparator)
-                      (get operators-map comparator)
-                      comparator)]
-    (when-not comparator'
-      (throw (IllegalArgumentException. (str "Illegal comparator: " comparator))))
+  (if-not (keyword? comparator)
     (fn [item]
-      (comparator' (extractor item) value))))
+      (comparator (extractor item) value))
+    (if-let [op (get operators-map comparator)]
+      (op extractor comparator value)
+      (throw (IllegalArgumentException.
+              (str "Illegal comparator: " comparator))))))
 
 
 
