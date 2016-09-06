@@ -10,6 +10,4 @@
   :profiles {:dev {:resource-paths ["test-data"]
                    :dependencies [[midje "1.8.3"]]
                    :plugins [[lein-midje "3.2"]]}}
-
-  :deploy-repositories[["clojars" {:url "https://clojars.org/repo/"
-                                   :sign-releases false}]])
+)
