@@ -203,16 +203,19 @@
 
  "value"       :starts-with?      "val"          truthy
  "notval"      :starts-with?      "value"        falsey
+ "VALUE"       :starts-with?      "val"          falsey
  nil           :starts-with?      "value"        falsey
  "value"       :starts-with?      nil            falsey
 
  "value"       :ends-with?        "lue"          truthy
  "notval"      :ends-with?        "value"        falsey
+ "VALUE"       :ends-with?        "lue"          falsey
  nil           :ends-with?        "value"        falsey
  "value"       :ends-with?        nil            falsey
 
  "values"      :contains?         "lue"          truthy
  "notval"      :contains?         "value"        falsey
+ "VALUE"       :contains?         "alu"          falsey
  nil           :contains?         "value"        falsey
  "value"       :contains?         nil            falsey
 
@@ -271,4 +274,43 @@
  nil           :in?               ["v1" "v2" "v3"] falsey
  nil           :in?               nil              falsey
 
+ )
+
+
+(tabular
+ (fact "`where`: with DSL operators with strings"
+
+        ((where ?operator ?target) ?value) => ?result)
+
+ ?value        ?operator          ?target        ?result
+ "value"       :STARTS-WITH?      "val"          truthy
+ "notval"      :STARTS-WITH?      "value"        falsey
+ "VALUE"       :STARTS-WITH?      "val"          truthy
+ nil           :STARTS-WITH?      "value"        falsey
+ "value"       :STARTS-WITH?      nil            falsey
+
+ "value"       :ENDS-WITH?        "lue"          truthy
+ "notval"      :ENDS-WITH?        "value"        falsey
+ "VALUE"       :ENDS-WITH?        "lue"          truthy
+ nil           :ENDS-WITH?        "value"        falsey
+ "value"       :ENDS-WITH?        nil            falsey
+
+ "values"      :CONTAINS?         "lue"          truthy
+ "notval"      :CONTAINS?         "value"        falsey
+ "VALUE"       :CONTAINS?         "alu"          truthy
+ nil           :CONTAINS?         "value"        falsey
+ "value"       :CONTAINS?         nil            falsey
+
+ "values"      :NOT-CONTAINS?     "lue"          falsey
+ "values"      :NOT-CONTAINS?     "LUE"          falsey
+ "notval"      :NOT-CONTAINS?     "value"        truthy
+ nil           :NOT-CONTAINS?     "value"        truthy
+ "value"       :NOT-CONTAINS?     nil            truthy
+
+ "value 123"   :MATCHES?           #"VAL\w+ \d+" truthy
+ "value 123"   :MATCHES?           #"\d+"        truthy
+ "value 123"   :MATCHES?           #"^\d+$"      falsey
+ "123"         :MATCHES?           #"^\d+$"      truthy
+ nil           :MATCHES?           #"^\d+$"      falsey
+ "123"         :MATCHES?           nil           falsey
  )

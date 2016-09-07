@@ -30,7 +30,9 @@
         (if (f1 x) true (recur fr))))))
 
 
-
+;;
+;; TODO: need a cleaner solution
+;;
 (def ^{:private true} operators-map
   (let [_gen  {:is      (fn [extractor _ value]
                           (fn [item]
@@ -74,6 +76,8 @@
               ;; TODO: :matches-date?
               ;; TODO: :like?
               }
+
+
         _str-not (->> _str
                       (mapcat (fn [[op f]]
                                 [[op f]
@@ -82,6 +86,33 @@
                                     (complement
                                      (f extractor comparator value)))]]))
                       (into {}))
+
+        ;;
+        ;; Case insensitive
+        ;;
+        _STR (->> (merge _str _str-not)
+                  (mapcat (fn [[op f]]
+                            [[op f]
+                             [(keyword (.toUpperCase (name op)))
+                              (if (= op :matches?)
+                                (fn [extractor comparator value]
+                                  (let [insensitive (fn [^java.util.regex.Pattern value]
+                                                      (when value
+                                                        (java.util.regex.Pattern/compile
+                                                         (.pattern value)
+                                                         java.util.regex.Pattern/CASE_INSENSITIVE)))
+                                        lower (fn [^String value]
+                                                (when value (.toLowerCase value)))
+                                        value (insensitive value)
+                                        extractor (comp extractor lower)]
+                                    (f extractor comparator value)))
+                                (fn [extractor comparator value]
+                                  (let [lower (fn [^String value]
+                                                (when value (.toLowerCase value)))
+                                        value (lower value)
+                                        extractor (comp extractor lower)]
+                                    (f extractor comparator value))))]]))
+                  (into {}))
         ;;
         ;; Numerical operators
         ;;
@@ -102,7 +133,7 @@
                                 high (max v1 v2)]
                             (fn [item]
                               (or (= low item) (< low item high)))))}]
-    (merge _gen _str _str-not _num)))
+    (merge _gen _str _STR _str-not _num)))
 
 
 
@@ -129,7 +160,7 @@
   For example if you have a collection `users` which contains map with
   the following format:
 
-     [{ :name \"Kiayada Wyatt\", :user \"kiayada33\", :age 33,
+     [{:name \"Kiayada Wyatt\", :user \"kiayada33\", :age 33,
        :country \"USA\", :active true } ,,,]
 
   and let' say you want to find all users coming from \"USA\"
