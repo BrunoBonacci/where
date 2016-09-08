@@ -34,10 +34,10 @@
 ;; TODO: need a cleaner solution
 ;;
 (def ^{:private true} operators-map
-  (let [_gen  {:is      (fn [extractor _ value]
+  (let [_gen  {:is?      (fn [extractor _ value]
                           (fn [item]
                             (= (extractor item) value)))
-               :is-not  (fn [extractor _ value]
+               :is-not?  (fn [extractor _ value]
                           (fn [item]
                             (not= (extractor item) value)))
                :in?     (fn [extractor _ values]

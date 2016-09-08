@@ -195,11 +195,11 @@
         ((where ?operator ?target) ?value) => ?result)
 
  ?value        ?operator          ?target        ?result
- "value"       :is                "value"        truthy
- "value1"      :is                "value"        falsey
+ "value"       :is?               "value"        truthy
+ "value1"      :is?               "value"        falsey
 
- "value"       :is-not            "value"        falsey
- "value1"      :is-not            "value"        truthy
+ "value"       :is-not?           "value"        falsey
+ "value1"      :is-not?           "value"        truthy
 
  "value"       :starts-with?      "val"          truthy
  "notval"      :starts-with?      "value"        falsey
