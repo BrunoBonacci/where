@@ -187,6 +187,10 @@
 
 
 
+(fact "`where`: with DSL unknown operators should throw exception"
+
+      ((where :unknown-op "target") "value") => (throws IllegalArgumentException))
+
 
 
 (tabular

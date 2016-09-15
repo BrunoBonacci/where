@@ -1,7 +1,8 @@
 (ns where.core
   "Provides a function called `where` which facilitate
   the building of complex predicates for `filter`,
-  especially useful with maps.")
+  especially useful with maps."
+  (:require [where.operation :as ops]))
 
 
 (defn- f-and
@@ -30,122 +31,13 @@
         (if (f1 x) true (recur fr))))))
 
 
-;;
-;; TODO: need a cleaner solution
-;;
-(def ^{:private true} operators-map
-  (let [_gen  {:is?      (fn [extractor _ value]
-                          (fn [item]
-                            (= (extractor item) value)))
-               :is-not?  (fn [extractor _ value]
-                          (fn [item]
-                            (not= (extractor item) value)))
-               :in?     (fn [extractor _ values]
-                          (let [vs (set values)]
-                            (fn [item]
-                              (vs (extractor item)))))
-               }
-        ;;
-        ;; String operators
-        ;;
-        _str {
-              :starts-with? (fn [extractor _ ^String value]
-                              (fn [item]
-                                (let [^String s (extractor item)]
-                                  (when (and s value)
-                                    (.startsWith s value)))))
-
-              :ends-with?   (fn [extractor _ ^String value]
-                              (fn [item]
-                                (let [^String s (extractor item)]
-                                  (when (and s value)
-                                    (.endsWith s value)))))
-
-              :contains?    (fn [extractor _ ^String value]
-                              (fn [item]
-                                (let [^String s (extractor item)]
-                                  (when (and s value)
-                                    (not= -1 (.indexOf s value))))))
-
-              :matches?    (fn [extractor _ ^java.util.regex.Pattern value]
-                             (fn [item]
-                               (let [^String s (extractor item)]
-                                 (when (and s value)
-                                   (re-find value s)))))
-
-              ;; TODO: :matches-date?
-              ;; TODO: :like?
-              }
-
-
-        _str-not (->> _str
-                      (mapcat (fn [[op f]]
-                                [[op f]
-                                 [(keyword (str "not-" (name op)))
-                                  (fn [extractor comparator value]
-                                    (complement
-                                     (f extractor comparator value)))]]))
-                      (into {}))
-
-        ;;
-        ;; Case insensitive
-        ;;
-        _STR (->> (merge _str _str-not)
-                  (mapcat (fn [[op f]]
-                            [[op f]
-                             [(keyword (.toUpperCase (name op)))
-                              (if (= op :matches?)
-                                (fn [extractor comparator value]
-                                  (let [insensitive (fn [^java.util.regex.Pattern value]
-                                                      (when value
-                                                        (java.util.regex.Pattern/compile
-                                                         (.pattern value)
-                                                         java.util.regex.Pattern/CASE_INSENSITIVE)))
-                                        lower (fn [^String value]
-                                                (when value (.toLowerCase value)))
-                                        value (insensitive value)
-                                        extractor (comp extractor lower)]
-                                    (f extractor comparator value)))
-                                (fn [extractor comparator value]
-                                  (let [lower (fn [^String value]
-                                                (when value (.toLowerCase value)))
-                                        value (lower value)
-                                        extractor (comp extractor lower)]
-                                    (f extractor comparator value))))]]))
-                  (into {}))
-        ;;
-        ;; Numerical operators
-        ;;
-        _num {:between? (fn [extractor _ [v1 v2]]
-                          (let [low (min v1 v2)
-                                high (max v1 v2)]
-                            (fn [item]
-                              (<= low item high))))
-
-              :strictly-between? (fn [extractor _ [v1 v2]]
-                                   (let [low (min v1 v2)
-                                         high (max v1 v2)]
-                                     (fn [item]
-                                       (< low item high))))
-
-              :range?   (fn [extractor _ [v1 v2]]
-                          (let [low (min v1 v2)
-                                high (max v1 v2)]
-                            (fn [item]
-                              (or (= low item) (< low item high)))))}]
-    (merge _gen _str _STR _str-not _num)))
-
-
 
 (defn- operator
   [extractor comparator value]
   (if-not (keyword? comparator)
     (fn [item]
       (comparator (extractor item) value))
-    (if-let [op (get operators-map comparator)]
-      (op extractor comparator value)
-      (throw (IllegalArgumentException.
-              (str "Illegal comparator: " comparator))))))
+    (ops/operation extractor comparator value)))
 
 
 
