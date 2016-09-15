@@ -5,6 +5,7 @@
   (:require [where.operation :as ops]))
 
 
+
 (defn- f-and
   "Internal function which applies a logical AND to
   a given list of predicates [f(x)-> true/false].
@@ -16,6 +17,7 @@
       (if-not f1
         true ;; reached the end
         (if (f1 x) (recur fr) false)))))
+
 
 
 (defn- f-or
