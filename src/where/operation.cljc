@@ -64,6 +64,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(defmethod operation :IS?
+  [extractor _ ^String value]
+  (let [^String value (when value (.toLowerCase value))]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (= (.toLowerCase s) value))))))
+
+
+
+(defmethod operation :IS-NOT?
+  [extractor _ value]
+  (complement
+   (operation extractor :IS? value)))
+
+
+
+(defmethod operation :IN?
+  [extractor _ values]
+  (let [vs (set
+            (filter identity
+                    (map (fn [^String s]
+                           (when s (.toLowerCase s))) values)))]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (vs (when s (.toLowerCase s)))))))
+
+
+
 (defmethod operation :starts-with?
   [extractor _ ^String value]
   (fn [item]

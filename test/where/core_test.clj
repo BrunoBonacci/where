@@ -317,4 +317,29 @@
  "123"         :MATCHES?           #"^\d+$"      truthy
  nil           :MATCHES?           #"^\d+$"      falsey
  "123"         :MATCHES?           nil           falsey
- )
+
+ "value"       :IS?                "value"       truthy
+ "VALUE"       :IS?                "value"       truthy
+ "value"       :IS?                "VALUE"       truthy
+ nil           :IS?                "VALUE"       falsey
+ "value"       :IS?                nil           falsey
+ "value"       :IS?                "some"        falsey
+
+ "value"       :IS-NOT?            "value"       falsey
+ "VALUE"       :IS-NOT?            "value"       falsey
+ "value"       :IS-NOT?            "VALUE"       falsey
+ nil           :IS-NOT?            "VALUE"       truthy
+ "value"       :IS-NOT?            nil           truthy
+ "value"       :IS-NOT?            "some"        truthy
+
+ "value"       :IN?                ["value" ]    truthy
+ "VALUE"       :IN?                ["value" ]    truthy
+ "value"       :IN?                ["VALUE" ]    truthy
+ nil           :IN?                ["VALUE" ]    falsey
+ "value"       :IN?                [nil     ]    falsey
+ "value"       :IN?                ["some"  ]    falsey
+ "value"       :IN?                ["some" "wxy"]   falsey
+ "value"       :IN?                ["some" "value"] truthy
+
+ "value"       :NOT-IN?            ["some" "wxy"] truthy
+)
