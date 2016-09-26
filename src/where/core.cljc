@@ -71,7 +71,7 @@
      (filter (where > 6) (range 20))
 
   Finally you can easily compose condition with logical operators such
-  as `:and` and `:or`
+  as `:and`, `:or` and `:not`
 
      (filter (where [:and [:country = \"USA\"] [:age > 18]]) users)
 
@@ -79,13 +79,19 @@
   "
   ;; it expects a to compose various
   ;; conditions via logical operators
-  ;; such as `:and`, `:or`
+  ;; such as `:and`, `:or`, `:not`
   ([[op & rules :as cond-spec]]
-   (if (#{:or :and} op)
+   (if (#{:or :and :not} op)
      (let [cnds (map where rules)]
-       (case op
-         :or (f-or cnds)
-         :and (f-and cnds)))
+       (cond
+         (= op :or) (f-or cnds)
+         (= op :and) (f-and cnds)
+
+         (and (= :not op) (not= 1 (count rules)))
+         (throw (IllegalArgumentException.
+                 ":not expects exactly one predicate"))
+
+         (= op :not) (complement (first cnds))))
      (apply where cond-spec)))
 
   ;; it expect a collection of values

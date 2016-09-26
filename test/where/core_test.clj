@@ -143,6 +143,16 @@
        )
 
 
+(facts "about `where`: composing predicates with logical not"
+
+       ((where [:not [:b = 2]])   {:a 1 :b 3})          => truthy
+       ((where [:not [:b = 3]])   {:a 1 :b 3})          => falsey
+       ((where [:not [:not [:b = 3]]])   {:a 1 :b 3})   => truthy
+       ((where [:not [:b = 2] [:a = 2]])   {:a 1 :b 3}) => (throws IllegalArgumentException)
+
+       )
+
+
 (facts "about `where`: composing predicates with both logical operators"
 
 

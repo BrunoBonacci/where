@@ -317,7 +317,7 @@ CI status: [![CircleCI](https://circleci.com/gh/BrunoBonacci/where.svg?style=svg
 
 Here are things I'm considering to add.
 
-  * more logical operators such as `NOT` and `XOR`
+  * more logical operators such as `XOR`
   * support for composition with custom predicates `(where [:and f1 f2 f3])`
   * a set of useful/common extractors and comparators.
   * support for unary predicates
