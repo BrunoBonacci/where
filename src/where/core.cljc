@@ -88,8 +88,7 @@
          (= op :and) (f-and cnds)
 
          (and (= :not op) (not= 1 (count rules)))
-         (throw (IllegalArgumentException.
-                 ":not expects exactly one predicate"))
+         (ops/raise-error ":not expects exactly one predicate")
 
          (= op :not) (complement (first cnds))))
      (apply where cond-spec)))

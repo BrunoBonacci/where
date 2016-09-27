@@ -1,6 +1,13 @@
 (ns where.operation)
 
 
+(defn raise-error
+  [^String message]
+  #?(:clj  (throw (IllegalArgumentException. message))
+     :cljs (throw {:type "IllegalArgumentException"
+                   :message message})))
+
+
 (defmulti operation
   (fn [_ op _]
     (if (some-> op name
@@ -13,8 +20,7 @@
 
 (defmethod operation :default
   [extractor op value]
-  (throw (IllegalArgumentException.
-          (str "Illegal comparator: " op))))
+  (raise-error (str "Illegal comparator: " op)))
 
 
 
