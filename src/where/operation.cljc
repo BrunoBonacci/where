@@ -74,9 +74,9 @@
   [extractor _ ^String value]
   (let [^String value (when value (.toLowerCase value))]
     (fn [item]
-      (let [^String s (extractor item)]
-        (when (and s value)
-          (= (.toLowerCase s) value))))))
+      (let [^String s (extractor item)
+            s (when s (.toLowerCase s))]
+        (= s value)))))
 
 
 
