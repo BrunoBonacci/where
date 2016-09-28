@@ -313,6 +313,14 @@ For example:
 
 CI status: [![CircleCI](https://circleci.com/gh/BrunoBonacci/where.svg?style=svg)](https://circleci.com/gh/BrunoBonacci/where)
 
+### How to build.
+
+Build profiles are by Clojure version:
+
+``` shell
+lein build-all
+```
+
 ## TODOs
 
 Here are things I'm considering to add.

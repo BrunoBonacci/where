@@ -157,20 +157,33 @@
 
 
 (defmethod operation :matches?
-  [extractor _ ^java.util.regex.Pattern value]
-  (fn [item]
-    (let [^String s (extractor item)]
-      (when (and s value)
-        (re-find value s)))))
+  [extractor _ value]
+  (let [value (when value (re-pattern value))]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (re-find value s))))))
+
+
+
+(defn- insensitive-pattern [value]
+  #?(:clj
+     (when value
+       (java.util.regex.Pattern/compile
+        (.pattern value)
+        java.util.regex.Pattern/CASE_INSENSITIVE))
+
+     :cljs
+     (when value
+       (re-pattern
+        (str "(?i)"
+             (some-> (re-find #"^/(.*)/$" (str (re-pattern value))) second))))))
 
 
 
 (defmethod operation :MATCHES?
-  [extractor _ ^java.util.regex.Pattern value]
-  (let [^java.util.regex.Pattern value
-        (when value (java.util.regex.Pattern/compile
-                     (.pattern value)
-                     java.util.regex.Pattern/CASE_INSENSITIVE))]
+  [extractor _ value]
+  (let [value (insensitive-pattern value)]
     (fn [item]
       (let [^String s (extractor item)]
         (when (and s value)
