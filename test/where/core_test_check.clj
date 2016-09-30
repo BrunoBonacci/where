@@ -118,3 +118,64 @@
 
       (tc/quick-check 1000 prop-all-string-operation-support-case-insensitiveness-special-in)
       => (contains {:result true}))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                            ;;
+;;                  ---==| N E G A T I O N   T E S T |==----                  ;;
+;;                                                                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(def negation
+  {:CONTAINS?           :NOT-CONTAINS?
+   :ENDS-WITH?          :NOT-ENDS-WITH?
+   :IN?                 :NOT-IN?
+   :IS-NOT?             :NOT-IS-NOT?
+   :IS?                 :IS-NOT?
+   :MATCHES?            :NOT-MATCHES?
+   :STARTS-WITH?        :NOT-STARTS-WITH?
+   :between?            :not-between?
+   :contains?           :not-contains?
+   :default             :not-default
+   :ends-with?          :not-ends-with?
+   :in?                 :not-in?
+   :is?                 :is-not?
+   :matches?            :not-matches?
+   :range?              :not-range?
+   :starts-with?        :not-starts-with?
+   :strictly-between?   :not-strictly-between?
+   })
+
+
+(def positive-string-operations
+  [:CONTAINS? :ENDS-WITH? :IS? :STARTS-WITH?
+   :contains? :ends-with? :is? :starts-with?])
+
+
+(def prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator
+  (prop/for-all
+   [v1 gen-strings-or-nil
+    op (gen/elements positive-string-operations)
+    v2 gen-strings-or-nil]
+
+   (fact "prop all NOT operators are just the negation of the positive operator"
+         (not ((where identity op v2) v1))
+         =>
+         ((where identity (negation op) v2) v1))))
+
+
+(fact "Negation are just the complement of the forward operation" :test-check
+
+      (tc/quick-check 1000 prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator)
+      => (contains {:result true}))
+
+
+
+;; TODO: matches not
+;; TODO: in not
+;; TODO: matches nil
+;; TODO: matches case
+;; numerical
