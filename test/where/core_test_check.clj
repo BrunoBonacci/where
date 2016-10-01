@@ -22,12 +22,12 @@
                   [20 gen/large-integer]
                   [20 gen/double]
                   [20 gen/ratio]
-                  #_[20 (gen/return nil)]]))
+                  [20 (gen/return nil)]]))
 
 
 (def gen-tuple-num
   (gen/frequency [[80 (gen/tuple gen-num gen-num)]
-                  #_[20 (gen/return nil)]]))
+                  [20 (gen/return nil)]]))
 
 
 (def gen-any

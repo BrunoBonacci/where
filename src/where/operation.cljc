@@ -200,25 +200,34 @@
 
 (defmethod operation :between?
   [extractor _ [v1 v2]]
-  (let [low (min v1 v2)
-        high (max v1 v2)]
-    (fn [item]
-      (<= low item high))))
+  (if (and v1 v2)
+    (let [low (min v1 v2)
+          high (max v1 v2)]
+      (fn [item]
+        (when item
+          (<= low item high))))
+    (constantly nil)))
 
 
 
 (defmethod operation :strictly-between?
   [extractor _ [v1 v2]]
-  (let [low (min v1 v2)
-        high (max v1 v2)]
-    (fn [item]
-      (< low item high))))
+  (if (and v1 v2)
+    (let [low (min v1 v2)
+          high (max v1 v2)]
+      (fn [item]
+        (when item
+          (< low item high))))
+    (constantly nil)))
 
 
 
 (defmethod operation :range?
   [extractor _ [v1 v2]]
-  (let [low (min v1 v2)
-        high (max v1 v2)]
-    (fn [item]
-      (or (= low item) (< low item high)))))
+  (if (and v1 v2)
+    (let [low (min v1 v2)
+          high (max v1 v2)]
+      (fn [item]
+        (when item
+          (or (= low item) (< low item high)))))
+    (constantly nil)))
