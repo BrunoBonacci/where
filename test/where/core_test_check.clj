@@ -17,6 +17,12 @@
   (gen/frequency [[50 gen/string]
                   [50 (gen/return nil)]]))
 
+
+(def gen-pattern-or-nil
+  (gen/frequency [[50 (gen/such-that #(try (re-pattern %) true (catch Exception x false)) gen/string)]
+                  [50 (gen/return nil)]]))
+
+
 (def gen-num
   (gen/frequency [[20 gen/nat]
                   [20 gen/large-integer]
@@ -49,13 +55,13 @@
    [:IN?                     gen-strings-or-nil    gen-list-of-strings  :NOT-IN?                nil               ]
    [:IS-NOT?                 gen-strings-or-nil    gen-strings-or-nil   :NOT-IS-NOT?            nil               ]
    [:IS?                     gen-strings-or-nil    gen-strings-or-nil   :IS-NOT?                nil               ]
- ;;[:MATCHES?                gen-strings-or-nil    gen-strings-or-nil   :NOT-MATCHES?           nil               ]
+   [:MATCHES?                gen-strings-or-nil    gen-pattern-or-nil   :NOT-MATCHES?           nil               ]
    [:STARTS-WITH?            gen-strings-or-nil    gen-strings-or-nil   :NOT-STARTS-WITH?       nil               ]
    [:contains?               gen-strings-or-nil    gen-strings-or-nil   :not-contains?          :CONTAINS?        ]
    [:ends-with?              gen-strings-or-nil    gen-strings-or-nil   :not-ends-with?         :ENDS-WITH?       ]
    [:in?                     gen-strings-or-nil    gen-list-of-any      :not-in?                :IN?              ]
    [:is?                     gen-any               gen-any              :is-not?                :IS?              ]
- ;;[:matches?                gen-strings-or-nil    gen-strings-or-nil   :not-matches?           :MATCHES?         ]
+   [:matches?                gen-strings-or-nil    gen-pattern-or-nil   :not-matches?           :MATCHES?         ]
    [:starts-with?            gen-strings-or-nil    gen-strings-or-nil   :not-starts-with?       :STARTS-WITH?     ]
    [:range?                  gen-num               gen-tuple-num        :not-range?             nil               ]
    [:between?                gen-num               gen-tuple-num        :not-between?           nil               ]
@@ -65,13 +71,13 @@
    [:NOT-IN?                 gen-strings-or-nil    gen-list-of-strings  :IN?                    nil               ]
    [:NOT-IS-NOT?             gen-strings-or-nil    gen-strings-or-nil   :IS-NOT?                nil               ]
    [:IS-NOT?                 gen-strings-or-nil    gen-strings-or-nil   :IS?                    nil               ]
- ;;[:NOT-MATCHES?            gen-strings-or-nil    gen-strings-or-nil   :MATCHES?               nil               ]
+   [:NOT-MATCHES?            gen-strings-or-nil    gen-pattern-or-nil   :MATCHES?               nil               ]
    [:NOT-STARTS-WITH?        gen-strings-or-nil    gen-strings-or-nil   :STARTS-WITH?           nil               ]
    [:not-contains?           gen-strings-or-nil    gen-strings-or-nil   :contains?              :NOT-CONTAINS?    ]
    [:not-ends-with?          gen-strings-or-nil    gen-strings-or-nil   :ends-with?             :NOT-ENDS-WITH?   ]
    [:not-in?                 gen-strings-or-nil    gen-list-of-any      :in?                    :NOT-IN?          ]
    [:is-not?                 gen-any               gen-any              :is?                    :IS-NOT?          ]
- ;;[:not-matches?            gen-strings-or-nil    gen-strings-or-nil   :matches?               :NOT-MATCHES?     ]
+   [:not-matches?            gen-strings-or-nil    gen-pattern-or-nil   :matches?               :NOT-MATCHES?     ]
    [:not-starts-with?        gen-strings-or-nil    gen-strings-or-nil   :starts-with?           :NOT-STARTS-WITH? ]
    [:not-range?              gen-num               gen-tuple-num        :range?                 nil               ]
    [:not-between?            gen-num               gen-tuple-num        :between?               nil               ]

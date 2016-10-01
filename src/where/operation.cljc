@@ -170,7 +170,7 @@
   #?(:clj
      (when value
        (java.util.regex.Pattern/compile
-        (.pattern value)
+        (.pattern (re-pattern value))
         java.util.regex.Pattern/CASE_INSENSITIVE))
 
      :cljs
