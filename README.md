@@ -234,8 +234,8 @@ properties:
 
 #### Comparators to work with Strings
 
-| comparator    | complement (not)  | case-insensitive | insensitive complement |
-|---------------+-------------------+------------------+------------------------|
+| Comparator    | Complement (not)  | Case-insensitive | Insensitive Complement |
+| ------------- | ----------------- | ---------------- | ---------------------- |
 | :is?          | :is-not?          | :IS?             | :IS-NOT?               |
 | :starts-with? | :not-starts-with? | :STARTS-WITH?    | :NOT-STARTS-WITH?      |
 | :ends-with?   | :not-ends-with?   | :ENDS-WITH?      | :NOT-ENDS-WITH?        |
@@ -244,8 +244,8 @@ properties:
 | :matches?     | :not-matches?     | :MATCHES?        | :NOT-MATCHES?          |
 
 
-| comparator    | Example                                          |
-|---------------+--------------------------------------------------|
+| Comparator    | Example                                          |
+|-------------- | ------------------------------------------------ |
 | :is?          | `(where :country :is? "USA")`                    |
 | :starts-with? | `(where :country :starts-with? "US")`            |
 | :ends-with?   | `(where :country :ends-with? "SA")`              |
@@ -256,15 +256,15 @@ properties:
 
 #### Comparators to work with Numbers
 
-| comparator         | complement (not)       |
-|--------------------+------------------------|
+| Comparator         | Complement (not)       |
+|------------------- | ---------------------- |
 | :between?          | :not-between?          |
 | :strictly-between? | :not-strictly-between? |
 | :range?            | :not-range?            |
 | :in?               | :not-in?               |
 
-| comparator         | Example                                   | True for       |
-|--------------------+-------------------------------------------+----------------|
+| Comparator         | Example                                   | True for       |
+|------------------- | ----------------------------------------- | -------------- |
 | :between?          | `(where :age :between? [18 21])`          | 18, 19, 20, 21 |
 | :strictly-between? | `(where :age :strictly-between? [18 21])` | 19, 20         |
 | :range?            | `(where :age :range? [18 21])`            | 18, 19, 20     |
