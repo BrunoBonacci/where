@@ -1,4 +1,4 @@
-(defproject com.brunobonacci/where "0.3.0-SNAPSHOT"
+(defproject com.brunobonacci/where "0.5.0"
   :description "Human readable conditions and `filter` best companion."
   :url "https://github.com/BrunoBonacci/where"
 
