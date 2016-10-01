@@ -2,5 +2,5 @@
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/
-    - export TC_NUM=10000 && lein do clean, compile :all, midje :config .midje_ci.clj
+    - export TC_NUM=5000 && lein do clean, compile :all, midje :config .midje_ci.clj
     - cp target/surefire-reports/* $CIRCLE_TEST_REPORTS/

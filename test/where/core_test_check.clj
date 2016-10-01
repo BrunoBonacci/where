@@ -10,6 +10,7 @@
 
 
 (def TC_NUM (or (some-> (System/getenv "TC_NUM") (#(Long/parseLong %))) 10))
+(println "Generating" TC_NUM "tests for each property to test.")
 
 
 (def gen-strings-or-nil
