@@ -1,0 +1,4 @@
+## Customize the test machine
+test:
+  override:
+    - export TC_NUM=1000 && lein do clean, midje :config .midje_ci.clj, jar
