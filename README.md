@@ -175,7 +175,7 @@ Here results of `ptable` will be shortened for brevity the ellipsis
 ### Logical operators
 
 It is possible to combine predicate function with logical operators such
-as `AND` and `OR` to create more sophisticate filters.
+as `AND`, `OR` and `NOT` to create more sophisticate filters.
 
 ```Clojure
 ;; now plain Clojure starts to be very hard to read
@@ -220,6 +220,55 @@ Let's now get all active users from Italy or USA which are of age between 18 and
 ;; |    Danielle Tyler |  danielle44 |   61 |    Italy |    true | {:high 9648, :last 9002, :min 3567} |
 ;; ...
 ```
+
+### Built-in comparators.
+
+There are a number of common compartors which are provided as built-in functions.
+These comparators allow for much simpler and expressive code than their respective
+Clojure's counterparts. Additionally all built-in comparators have the following
+properties:
+
+  - **All built-in comparator are `nil` safe**
+  - **All built-in comparator have a complement operator (which starts with `not`)**
+  - **All built-in string comparator have a __case insensitive__ version (uppercase)**
+
+#### Comparators to work with Strings
+
+| comparator    | complement (not)  | case-insensitive | insensitive complement |
+|---------------+-------------------+------------------+------------------------|
+| :is?          | :is-not?          | :IS?             | :IS-NOT?               |
+| :starts-with? | :not-starts-with? | :STARTS-WITH?    | :NOT-STARTS-WITH?      |
+| :ends-with?   | :not-ends-with?   | :ENDS-WITH?      | :NOT-ENDS-WITH?        |
+| :contains?    | :not-contains?    | :CONTAINS?       | :NOT-CONTAINS?         |
+| :in?          | :not-in?          | :IN?             | :NOT-IN?               |
+| :matches?     | :not-matches?     | :MATCHES?        | :NOT-MATCHES?          |
+
+
+| comparator    | Example                                          |
+|---------------+--------------------------------------------------|
+| :is?          | `(where :country :is? "USA")`                    |
+| :starts-with? | `(where :country :starts-with? "US")`            |
+| :ends-with?   | `(where :country :ends-with? "SA")`              |
+| :contains?    | `(where :country :contains? "SA")`               |
+| :in?          | `(where :country :in? ["USA" "Italy" "France"])` |
+| :matches?     | `(where :country :matches? #"United.*")`         |
+
+
+#### Comparators to work with Numbers
+
+| comparator         | complement (not)       |
+|--------------------+------------------------|
+| :between?          | :not-between?          |
+| :strictly-between? | :not-strictly-between? |
+| :range?            | :not-range?            |
+| :in?               | :not-in?               |
+
+| comparator         | Example                                   | True for       |
+|--------------------+-------------------------------------------+----------------|
+| :between?          | `(where :age :between? [18 21])`          | 18, 19, 20, 21 |
+| :strictly-between? | `(where :age :strictly-between? [18 21])` | 19, 20         |
+| :range?            | `(where :age :range? [18 21])`            | 18, 19, 20     |
+| :in?               | `(where :age :in? [18 20 22 24])`         | 18, 20, 22, 24 |
 
 ### Nested Maps
 

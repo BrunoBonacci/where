@@ -201,11 +201,3 @@
        prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator
        :max-size 50)
       => (contains {:result true}))
-
-
-
-;; TODO: matches not
-;; TODO: in not
-;; TODO: matches nil
-;; TODO: matches case
-;; numerical

@@ -70,10 +70,36 @@
 
      (filter (where > 6) (range 20))
 
-  Finally you can easily compose condition with logical operators such
+  Additionally you can easily compose condition with logical operators such
   as `:and`, `:or` and `:not`
 
      (filter (where [:and [:country = \"USA\"] [:age > 18]]) users)
+
+
+  Finally there are number of built-in operators which provide a easy,
+  nil-safe, and expressive way to define common `where` clauses.
+  These operators are:
+
+  (*) Strings
+
+  | comparator    | complement (not)  | case-insensitive | insensitive complement |
+  |---------------+-------------------+------------------+------------------------|
+  | :is?          | :is-not?          | :IS?             | :IS-NOT?               |
+  | :starts-with? | :not-starts-with? | :STARTS-WITH?    | :NOT-STARTS-WITH?      |
+  | :ends-with?   | :not-ends-with?   | :ENDS-WITH?      | :NOT-ENDS-WITH?        |
+  | :contains?    | :not-contains?    | :CONTAINS?       | :NOT-CONTAINS?         |
+  | :in?          | :not-in?          | :IN?             | :NOT-IN?               |
+  | :matches?     | :not-matches?     | :MATCHES?        | :NOT-MATCHES?          |
+
+  (*) Numbers
+
+  | comparator         | complement (not)       |
+  |--------------------+------------------------|
+  | :between?          | :not-between?          |
+  | :strictly-between? | :not-strictly-between? |
+  | :range?            | :not-range?            |
+  | :in?               | :not-in?               |
+
 
   For more info please visit: https://github.com/BrunoBonacci/where
   "
