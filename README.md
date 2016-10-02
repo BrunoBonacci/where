@@ -21,6 +21,8 @@ which match a specific condition.
 
 `where` allows to build very expressive predicate functions.
 
+For a quick look please check this [cheatsheet](/doc/cheatsheet.md).
+
 ## Usage
 
 To use this library add the following dependency in your `project.clj`
