@@ -61,15 +61,15 @@ throw _NullPointerException_ like they String.class counterparts),
 `:not-matches` and `:NOT-MATCHES` require a valid Pattern.
 
 - `(where :country :not-startsWith? "Ita")`     - same as `(complement (where :country :startsWith? "Ita"))`
-- `(where :country :not-endsWith? "ly")`        - same as `(complement (where :country :not-endsWith? "ly"))`
-- `(where :country :not-contains? "tal")`       - same as `(complement (where :country :not-contains? "tal"))`
-- `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :not-matches? #"United.*"))`
-- `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS-NOT? "italy"))`
-- `(where :country :NOT-STARTSWITH? "ITA")`     - same as `(complement (where :country :NOT-STARTSWITH? "ITA"))`
-- `(where :country :NOT-ENDSWITH? "ly")`        - same as `(complement (where :country :NOT-ENDSWITH? "ly"))`
-- `(where :country :NOT-CONTAINS? "tal")`       - same as `(complement (where :country :NOT-CONTAINS? "tal"))`
-- `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :NOT-IN? ["ITALY" "france"]))`
-- `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :NOT-MATCHES? #"united.*"))`
+- `(where :country :not-endsWith? "ly")`        - same as `(complement (where :country :endsWith? "ly"))`
+- `(where :country :not-contains? "tal")`       - same as `(complement (where :country :contains? "tal"))`
+- `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :matches? #"United.*"))`
+- `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS? "italy"))`
+- `(where :country :NOT-STARTSWITH? "ITA")`     - same as `(complement (where :country :STARTSWITH? "ITA"))`
+- `(where :country :NOT-ENDSWITH? "ly")`        - same as `(complement (where :country :ENDSWITH? "ly"))`
+- `(where :country :NOT-CONTAINS? "tal")`       - same as `(complement (where :country :CONTAINS? "tal"))`
+- `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :IN? ["ITALY" "france"]))`
+- `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :MATCHES? #"united.*"))`
 
 ## Built-in numerical comparators
 
