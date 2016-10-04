@@ -23,51 +23,64 @@
 
 ## Built-in Generic comparators
 
-- `(where :country :is? "Italy")`
-- `(where :country :is-not? "Italy")`
-- `(where :country :in? ["Italy" "France" "USA"])`
-- `(where :country :not-in? ["Italy" "France" "USA"])`
+The generic comparator accept any Clojure value.
+
+- `(where :country :is? "Italy")` - like `=`
+- `(where :country :is-not? "Italy")` - like `not=`
+- `(where :country :in? ["Italy" "France" "USA"])` - truthy if it matches any of the values listed
+- `(where :country :not-in? ["Italy" "France" "USA"])` - falsey if it matches any of the values listed
 
 ## Built-in String comparators
 
-- `(where :country :startsWith? "Ita")`
-- `(where :country :endsWith? "ly")`
-- `(where :country :startsWith? "Ita")`
-- `(where :country :contains? "tal")`
-- `(where :country :matches? #"United.*")`
+All String comparators they expect a String and are `nil` safe (don't
+throw _NullPointerException_ like they String.class counterparts),
+`:matches` require a valid Pattern.
+
+- `(where :country :startsWith? "Ita")` - like `String/startsWith`
+- `(where :country :endsWith? "ly")` - like `String/endsWith`
+- `(where :country :contains? "tal")` - like `String/indexOf != -1`
+- `(where :country :matches? #"United.*")` - like `re-find`
 
 ## Built-in Case-insensitive String comparators
 
-- `(where :country :IS? "italy")`
-- `(where :country :STARTSWITH? "ITA")`
-- `(where :country :ENDSWITH? "ly")`
-- `(where :country :STARTSWITH? "ita")`
-- `(where :country :CONTAINS? "tal")`
-- `(where :country :IN? ["ITALY" "france"])`
-- `(where :country :MATCHES? #"united.*")`
+All String comparators they expect a String and are `nil` safe (don't
+throw _NullPointerException_ like they String.class counterparts),
+`:MATCHES` require a valid Pattern.
+
+- `(where :country :IS? "italy")` - like `String/.equalsIgnoreCase`
+- `(where :country :STARTSWITH? "ITA")` - like `String/startsWith`, but case insensitive
+- `(where :country :ENDSWITH? "ly")` - like `String/endsWith`, but case insensitive
+- `(where :country :CONTAINS? "tal")` - like `String/indexOf != -1`, but case insensitive
+- `(where :country :IN? ["ITALY" "france"])` - truthy if it matches any of the values listed, but case insensitive
+- `(where :country :MATCHES? #"united.*")` - like `re-find`, but case insensitive
 
 ## Built-in Negation of String comparators
 
-- `(where :country :not-startsWith? "Ita")`
-- `(where :country :not-endsWith? "ly")`
-- `(where :country :not-startsWith? "Ita")`
-- `(where :country :not-contains? "tal")`
-- `(where :country :not-matches? #"United.*")`
-- `(where :country :IS-NOT? "italy")`
-- `(where :country :NOT-STARTSWITH? "ITA")`
-- `(where :country :NOT-ENDSWITH? "ly")`
-- `(where :country :NOT-STARTSWITH? "ita")`
-- `(where :country :NOT-CONTAINS? "tal")`
-- `(where :country :NOT-IN? ["ITALY" "france"])`
-- `(where :country :NOT-MATCHES? #"united.*")`
+All String comparators they expect a String and are `nil` safe (don't
+throw _NullPointerException_ like they String.class counterparts),
+`:not-matches` and `:NOT-MATCHES` require a valid Pattern.
+
+- `(where :country :not-startsWith? "Ita")`     - same as `(complement (where :country :startsWith? "Ita"))`
+- `(where :country :not-endsWith? "ly")`        - same as `(complement (where :country :not-endsWith? "ly"))`
+- `(where :country :not-contains? "tal")`       - same as `(complement (where :country :not-contains? "tal"))`
+- `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :not-matches? #"United.*"))`
+- `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS-NOT? "italy"))`
+- `(where :country :NOT-STARTSWITH? "ITA")`     - same as `(complement (where :country :NOT-STARTSWITH? "ITA"))`
+- `(where :country :NOT-ENDSWITH? "ly")`        - same as `(complement (where :country :NOT-ENDSWITH? "ly"))`
+- `(where :country :NOT-CONTAINS? "tal")`       - same as `(complement (where :country :NOT-CONTAINS? "tal"))`
+- `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :NOT-IN? ["ITALY" "france"]))`
+- `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :NOT-MATCHES? #"united.*"))`
 
 ## Built-in numerical comparators
 
-- `(where :age :between? [18 34])` - true for all number between 18 and 34 (included)
-- `(where :age :strictly-between? [18 34])` - true for all number between 18 and 34 (excluded)
-- `(where :age :range? [18 34])` - true for all number between 18 (inlcuded) and 34 (excluded)
-- `(where :age :in? [18 22 34 16])` - true if the :age is in the given list of values
-- `(where :age :not-between? [18 34])` - false for all number between 18 and 34 (included)
-- `(where :age :not-strictly-between? [18 34])` - false for all number between 18 and 34 (excluded)
-- `(where :age :not-range? [18 34])` - false for all number between 18 (inlcuded) and 34 (excluded)
-- `(where :age :not-in? [18 22 34 16])` - false if the :age is in the given list of values
+All numerical comparators are `nil` safe (don't throw
+_NullPointerException_) when one of the argument is nil.
+
+- `(where :age :between? [18 34])` - truthy for all number between 18 and 34 (included)
+- `(where :age :strictly-between? [18 34])` - truthy for all number between 18 and 34 (excluded)
+- `(where :age :range? [18 34])` - truthy for all number between 18 (inlcuded) and 34 (excluded)
+- `(where :age :in? [18 22 34 16])` - truthy if the :age is in the given list of values
+- `(where :age :not-between? [18 34])` - falsey for all number between 18 and 34 (included)
+- `(where :age :not-strictly-between? [18 34])` - falsey for all number between 18 and 34 (excluded)
+- `(where :age :not-range? [18 34])` - falsey for all number between 18 (inlcuded) and 34 (excluded)
+- `(where :age :not-in? [18 22 34 16])` - falsey if the :age is in the given list of values
