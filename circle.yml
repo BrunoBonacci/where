@@ -1,7 +1,0 @@
-## Customize the test machine
-test:
-  override:
-    - lein build-all
-    - mkdir -p $CIRCLE_TEST_REPORTS/
-    - export TC_NUM=1000 && lein do clean, compile :all, midje :config .midje_ci.clj
-    - cp target/surefire-reports/* $CIRCLE_TEST_REPORTS/
