@@ -40,6 +40,7 @@ jobs:
 
       # run tests!
       - run: lein build-all
-      - run: mkdir -p $CIRCLE_TEST_REPORTS/
       - run: export TC_NUM=1000 && lein do clean, compile :all, midje :config .midje_ci.clj
-      - run: cp target/surefire-reports/* $CIRCLE_TEST_REPORTS/
+
+      - store_test_results:
+          path: target/surefire-reports/
