@@ -24,8 +24,8 @@
                                      [org.clojure/clojurescript "1.7.228"]]}
              :cljs18 {:dependencies [[org.clojure/clojure "1.8.0"]
                                      [org.clojure/clojurescript "1.8.51"]]}
-             :cljs19 {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]
-                                     [org.clojure/clojurescript "1.9.229"]]}}
+             :cljs19 {:dependencies [[org.clojure/clojure "1.9.0"]
+                                     [org.clojure/clojurescript "1.9.946"]]}}
   :cljsbuild
   {:builds
    [{:source-paths   ["src"]
