@@ -40,7 +40,7 @@ jobs:
 
       # run tests!
       - run: lein build-all
-      - run: export TC_NUM=1000 && lein do clean, compile :all, midje :config .midje_ci.clj
+      - run: export TC_NUM=1000 && lein do clean, compile :all, midje #:config .midje_ci.clj
 
-      - store_test_results:
-          path: target/surefire-reports/
+      #- store_test_results:
+      #    path: target/surefire-reports/
