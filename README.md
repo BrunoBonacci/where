@@ -25,7 +25,8 @@ return a truthy or a falsey value.  `f(x) -> truthy | falsey`.  These
 are often used together with function like `filter` to retain only items
 which match a specific condition.
 
-`where` allows to build very expressive predicate functions.
+`where` allows to build very expressive predicate functions and `nil`-safe.
+
 
 ## Usage
 
