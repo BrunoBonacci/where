@@ -233,6 +233,4 @@ Here are things I'm considering to add.
 
 ## License
 
-Copyright © 2015 Bruno Bonacci
-
-Distributed under the Apache 2 License.
+Copyright © 2015 - 2018 Bruno Bonacci - Distributed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0)
