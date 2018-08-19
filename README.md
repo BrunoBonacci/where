@@ -5,10 +5,11 @@ A Clojure and ClojureScript library to write expressive
 predicate functions.
 
 Advantages:
-  * Very expressive predicate functions
-  * `nil` safe built-in comparators
-  * Case insensitive built-in comparators
+  * Predicate functions are very expressive and easy to read
+  * All *built-in comparators* are `nil` safe.
+  * All *built-in comparators* which operate on strings have a *case insensitive version*
   * Very fast execution (same as hand crafted version)
+  * Very easy to embed in your DSL
 
 ## Motivations
 
@@ -75,7 +76,7 @@ The signature of the function is:
 
 - `(where [:and [:age <= 24] [:country = "USA"]])` `:and` can be used to connect predicates logically for which all the conditions must be truthy.
 - `(where [:or [:country = "USA"] [:country = "Italy]])` `:or` can be used to connect predicates logically for which one the conditions must be truthy.
-- `(where [:not [:country = "USA"]])` `:not` can be used to negate the logical value o a single predicate.
+- `(where [:not [:country = "USA"]])` `:not` can be used to negate the logical value of a single predicate.
 
 
 ## Built-in Generic comparators
