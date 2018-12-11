@@ -12,7 +12,7 @@
             "build-all"      ["do" "build-all-clj," "build-all-cljs"]}
 
   :profiles {:dev {:resource-paths ["test-data"]
-                   :dependencies [[midje "1.9.0-alpha5"]
+                   :dependencies [[midje "1.9.4"]
                                   [org.clojure/test.check "0.9.0"]]
                    :plugins [[lein-midje "3.2"]
                              [lein-cljsbuild "1.1.4"]]}
