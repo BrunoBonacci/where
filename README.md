@@ -1,4 +1,5 @@
 # where
+[![Clojars Project](https://img.shields.io/clojars/v/com.brunobonacci/where.svg)](https://clojars.org/com.brunobonacci/where) ![CircleCi](https://img.shields.io/circleci/project/BrunoBonacci/where.svg) ![last-commit](https://img.shields.io/github/last-commit/BrunoBonacci/where.svg) [![Dependencies Status](https://jarkeeper.com/BrunoBonacci/safely/status.svg)](https://jarkeeper.com/BrunoBonacci/where)
 
 Human readable conditions and `filter` best companion.
 A Clojure and ClojureScript library to write expressive
