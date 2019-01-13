@@ -95,8 +95,8 @@ All String comparators they expect a String and are `nil` safe (don't
 throw _NullPointerException_ like they String.class counterparts),
 `:matches` require a valid Pattern.
 
-- `(where :country :startsWith? "Ita")` - like `String/startsWith`
-- `(where :country :endsWith? "ly")` - like `String/endsWith`
+- `(where :country :starts-with? "Ita")` - like `String/startsWith`
+- `(where :country :ends-with? "ly")` - like `String/endsWith`
 - `(where :country :contains? "tal")` - like `String/indexOf != -1`
 - `(where :country :matches? #"United.*")` - like `re-find`
 
@@ -107,8 +107,8 @@ throw _NullPointerException_ like they String.class counterparts),
 `:MATCHES` require a valid Pattern.
 
 - `(where :country :IS? "italy")` - like `String/.equalsIgnoreCase`
-- `(where :country :STARTSWITH? "ITA")` - like `String/startsWith`, but case insensitive
-- `(where :country :ENDSWITH? "ly")` - like `String/endsWith`, but case insensitive
+- `(where :country :STARTS-WITH? "ITA")` - like `String/startsWith`, but case insensitive
+- `(where :country :ENDS-WITH? "ly")` - like `String/endsWith`, but case insensitive
 - `(where :country :CONTAINS? "tal")` - like `String/indexOf != -1`, but case insensitive
 - `(where :country :IN? ["ITALY" "france"])` - truthy if it matches any of the values listed, but case insensitive
 - `(where :country :MATCHES? #"united.*")` - like `re-find`, but case insensitive
@@ -119,13 +119,13 @@ All String comparators they expect a String and are `nil` safe (don't
 throw _NullPointerException_ like they String.class counterparts),
 `:not-matches` and `:NOT-MATCHES` require a valid Pattern.
 
-- `(where :country :not-startsWith? "Ita")`     - same as `(complement (where :country :startsWith? "Ita"))`
-- `(where :country :not-endsWith? "ly")`        - same as `(complement (where :country :endsWith? "ly"))`
+- `(where :country :not-starts-with? "Ita")`     - same as `(complement (where :country :starts-with? "Ita"))`
+- `(where :country :not-ends-with? "ly")`        - same as `(complement (where :country :ends-with? "ly"))`
 - `(where :country :not-contains? "tal")`       - same as `(complement (where :country :contains? "tal"))`
 - `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :matches? #"United.*"))`
 - `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS? "italy"))`
-- `(where :country :NOT-STARTSWITH? "ITA")`     - same as `(complement (where :country :STARTSWITH? "ITA"))`
-- `(where :country :NOT-ENDSWITH? "ly")`        - same as `(complement (where :country :ENDSWITH? "ly"))`
+- `(where :country :NOT-STARTS-WITH? "ITA")`     - same as `(complement (where :country :STARTS-WITH? "ITA"))`
+- `(where :country :NOT-ENDS-WITH? "ly")`        - same as `(complement (where :country :ENDS-WITH? "ly"))`
 - `(where :country :NOT-CONTAINS? "tal")`       - same as `(complement (where :country :CONTAINS? "tal"))`
 - `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :IN? ["ITALY" "france"]))`
 - `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :MATCHES? #"united.*"))`
