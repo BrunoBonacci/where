@@ -275,6 +275,32 @@
 
 
 (tabular
+ (fact "`where`: with DSL operators with numbers"
+
+        ((where :value ?operator ?target) ?value) => ?result)
+
+ ?value           ?operator          ?target        ?result
+ {:value 42}      :between?          [35 45]        truthy
+ {:value 35}      :between?          [35 45]        truthy
+ {:value 45}      :between?          [35 45]        truthy
+ {:value 34}      :between?          [35 45]        falsey
+ {:value 46}      :between?          [35 45]        falsey
+
+ {:value 42}      :strictly-between? [35 45]        truthy
+ {:value 35}      :strictly-between? [35 45]        falsey
+ {:value 45}      :strictly-between? [35 45]        falsey
+ {:value 34}      :strictly-between? [35 45]        falsey
+ {:value 46}      :strictly-between? [35 45]        falsey
+
+ {:value 42}      :range?            [35 45]        truthy
+ {:value 35}      :range?            [35 45]        truthy
+ {:value 45}      :range?            [35 45]        falsey
+ {:value 34}      :range?            [35 45]        falsey
+ {:value 46}      :range?            [35 45]        falsey
+ )
+
+
+(tabular
  (fact "`where`: with DSL generic operators"
 
         ((where ?operator ?target) ?value) => ?result)

@@ -205,7 +205,7 @@
           high (max v1 v2)]
       (fn [item]
         (when item
-          (<= low item high))))
+          (<= low (extractor item) high))))
     (constantly nil)))
 
 
@@ -217,7 +217,7 @@
           high (max v1 v2)]
       (fn [item]
         (when item
-          (< low item high))))
+          (< low (extractor item) high))))
     (constantly nil)))
 
 
@@ -229,5 +229,5 @@
           high (max v1 v2)]
       (fn [item]
         (when item
-          (or (= low item) (< low item high)))))
+          (or (= low (extractor item)) (< low (extractor item) high)))))
     (constantly nil)))
