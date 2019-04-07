@@ -34,7 +34,7 @@ which match a specific condition.
 
 To use this library add the following dependency in your `project.clj`
 
-    [com.brunobonacci/where "0.5.0"]
+    [com.brunobonacci/where "0.5.1"]
 
 Latest version: [![where](https://img.shields.io/clojars/v/com.brunobonacci/where.svg)](https://clojars.org/com.brunobonacci/where)
 
