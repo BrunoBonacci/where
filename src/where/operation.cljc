@@ -166,6 +166,16 @@
 
 
 
+(defmethod operation :matches-exactly?
+  [extractor _ value]
+  (let [value (when value (re-pattern value))]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (re-matches value s))))))
+
+
+
 (defn- insensitive-pattern [value]
   #?(:clj
      (when value
@@ -188,6 +198,16 @@
       (let [^String s (extractor item)]
         (when (and s value)
           (re-find value (.toLowerCase s)))))))
+
+
+
+(defmethod operation :MATCHES-EXACTLY?
+  [extractor _ value]
+  (let [value (insensitive-pattern value)]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (re-matches value (.toLowerCase s)))))))
 
 
 

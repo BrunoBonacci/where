@@ -245,7 +245,14 @@
  "123"         :matches?           #"^\d+$"      truthy
  nil           :matches?           #"^\d+$"      falsey
  "123"         :matches?           nil           falsey
- )
+
+ "value 123"   :matches-exactly?   #"\w+ \d+"    truthy
+ "value 123"   :matches-exactly?   #"\d+"        falsey
+ "value 123"   :matches-exactly?   #"^\d+$"      falsey
+ "123"         :matches-exactly?   #"^\d+$"      truthy
+ nil           :matches-exactly?   #"^\d+$"      falsey
+ "123"         :matches-exactly?   nil           falsey
+)
 
 
 
@@ -332,6 +339,13 @@
  "123"         :MATCHES?           #"^\d+$"      truthy
  nil           :MATCHES?           #"^\d+$"      falsey
  "123"         :MATCHES?           nil           falsey
+
+ "value 123"   :MATCHES-EXACTLY?   #"VAL\w+ \d+" truthy
+ "value 123"   :MATCHES-EXACTLY?   #"\d+"        falsey
+ "value 123"   :MATCHES-EXACTLY?   #"^\d+$"      falsey
+ "123"         :MATCHES-EXACTLY?   #"^\d+$"      truthy
+ nil           :MATCHES-EXACTLY?   #"^\d+$"      falsey
+ "123"         :MATCHES-EXACTLY?   nil           falsey
 
  "value"       :IS?                "value"       truthy
  "VALUE"       :IS?                "value"       truthy

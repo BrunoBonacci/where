@@ -99,6 +99,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :ends-with? "ly")` - like `String/endsWith`
 - `(where :country :contains? "tal")` - like `String/indexOf != -1`
 - `(where :country :matches? #"United.*")` - like `re-find`
+- `(where :country :matches-exactly? #"United.*")` - like `re-matches`
 
 ## Built-in Case-insensitive String comparators
 
@@ -112,6 +113,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :CONTAINS? "tal")` - like `String/indexOf != -1`, but case insensitive
 - `(where :country :IN? ["ITALY" "france"])` - truthy if it matches any of the values listed, but case insensitive
 - `(where :country :MATCHES? #"united.*")` - like `re-find`, but case insensitive
+- `(where :country :MATCHES-EXACTLY? #"united.*")` - like `re-matches`, but case insensitive
 
 ## Built-in Negation of String comparators
 
@@ -123,12 +125,14 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :not-ends-with? "ly")`        - same as `(complement (where :country :ends-with? "ly"))`
 - `(where :country :not-contains? "tal")`       - same as `(complement (where :country :contains? "tal"))`
 - `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :matches? #"United.*"))`
+- `(where :country :not-matches-exactly? #"United.*")` - same as `(complement (where :country :matches-exactly? #"United.*"))`
 - `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS? "italy"))`
 - `(where :country :NOT-STARTS-WITH? "ITA")`     - same as `(complement (where :country :STARTS-WITH? "ITA"))`
 - `(where :country :NOT-ENDS-WITH? "ly")`        - same as `(complement (where :country :ENDS-WITH? "ly"))`
 - `(where :country :NOT-CONTAINS? "tal")`       - same as `(complement (where :country :CONTAINS? "tal"))`
 - `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :IN? ["ITALY" "france"]))`
 - `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :MATCHES? #"united.*"))`
+- `(where :country :NOT-MATCHES-EXACTLY? #"united.*")`  - same as `(complement (where :country :MATCHES-EXACTLY? #"united.*"))`
 
 ## Built-in numerical comparators
 
@@ -158,14 +162,16 @@ properties:
 
 #### Comparators to work with Strings
 
-| Comparator    | Complement (not)  | Case-insensitive | Insensitive Complement |
-| ------------- | ----------------- | ---------------- | ---------------------- |
-| :is?          | :is-not?          | :IS?             | :IS-NOT?               |
-| :starts-with? | :not-starts-with? | :STARTS-WITH?    | :NOT-STARTS-WITH?      |
-| :ends-with?   | :not-ends-with?   | :ENDS-WITH?      | :NOT-ENDS-WITH?        |
-| :contains?    | :not-contains?    | :CONTAINS?       | :NOT-CONTAINS?         |
-| :in?          | :not-in?          | :IN?             | :NOT-IN?               |
-| :matches?     | :not-matches?     | :MATCHES?        | :NOT-MATCHES?          |
+| Comparator        | Complement (not)      | Case-insensitive  | Insensitive Complement |
+| -------------     | -----------------     | ----------------  | ---------------------- |
+| :is?              | :is-not?              | :IS?              | :IS-NOT?               |
+| :starts-with?     | :not-starts-with?     | :STARTS-WITH?     | :NOT-STARTS-WITH?      |
+| :ends-with?       | :not-ends-with?       | :ENDS-WITH?       | :NOT-ENDS-WITH?        |
+| :contains?        | :not-contains?        | :CONTAINS?        | :NOT-CONTAINS?         |
+| :in?              | :not-in?              | :IN?              | :NOT-IN?               |
+| :matches?         | :not-matches?         | :MATCHES?         | :NOT-MATCHES?          |
+| :matches-exactly? | :not-matches-exactly? | :MATCHES-EXACTLY? | :NOT-MATCHES-EXACTLY?  |
+|                   |                       |                   |                        |
 
 
 | Comparator    | Example                                          |
