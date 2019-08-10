@@ -211,6 +211,39 @@
 
 
 
+(defn glob->pattern
+  "Takes a glob pattern and returns a regular expression pattern"
+  [^String glob]
+  (when glob
+    (loop [p "" [c & glob] glob state {}]
+      (cond
+        (nil? c)                               (re-pattern (str "^" p "$"))
+        (= \\ c)                               (recur (str p c)      glob (update state :escape #(not %)))
+        (and (= \* c) (not (:escape state)))   (recur (str p ".*")   glob (assoc  state :escape false))
+        (and (= \? c) (not (:escape state)))   (recur (str p ".")    glob (assoc  state :escape false))
+        (or (= \. c) (= \{ c) (= \} c))        (recur (str p "\\" c) glob (assoc  state :escape false))
+        :else                                  (recur (str p c)      glob (assoc  state :escape false))))))
+
+
+(defmethod operation :glob-matches?
+  [extractor _ value]
+  (let [value (glob->pattern value)]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (re-matches value s))))))
+
+
+(defmethod operation :GLOB-MATCHES?
+  [extractor _ value]
+  (let [value (insensitive-pattern (glob->pattern value))]
+    (fn [item]
+      (let [^String s (extractor item)]
+        (when (and s value)
+          (re-matches value s))))))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                                                            ;;
 ;;            ---==| N U M E R I C A L   O P E R A T O R S |==----            ;;

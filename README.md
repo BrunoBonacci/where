@@ -11,6 +11,7 @@ Advantages:
   * All *built-in comparators* which operate on strings have a *case insensitive version*
   * Very fast execution (same as hand crafted version)
   * Very easy to embed in your DSL
+  * Support for glob pattern matching (like: `*.txt`)
 
 ## Motivations
 
@@ -100,6 +101,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :contains? "tal")` - like `String/indexOf != -1`
 - `(where :country :matches? #"United.*")` - like `re-find`
 - `(where :country :matches-exactly? #"United.*")` - like `re-matches`
+- `(where :filename :glob-matches? "*.txt")` - like glob pattern or wildcard matching `?` for any character, `*` any number of any characters
 
 ## Built-in Case-insensitive String comparators
 
@@ -114,6 +116,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :IN? ["ITALY" "france"])` - truthy if it matches any of the values listed, but case insensitive
 - `(where :country :MATCHES? #"united.*")` - like `re-find`, but case insensitive
 - `(where :country :MATCHES-EXACTLY? #"united.*")` - like `re-matches`, but case insensitive
+- `(where :filename :GLOB-MATCHES? "*.txt")` - like `:glob-matches?`, but case insensitive
 
 ## Built-in Negation of String comparators
 
@@ -126,6 +129,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :not-contains? "tal")`       - same as `(complement (where :country :contains? "tal"))`
 - `(where :country :not-matches? #"United.*")`  - same as `(complement (where :country :matches? #"United.*"))`
 - `(where :country :not-matches-exactly? #"United.*")` - same as `(complement (where :country :matches-exactly? #"United.*"))`
+- `(where :filename :not-glob-matches? "*.txt")` - same as `(complement (where :filename :not-glob-matches? "*.txt"))`
 - `(where :country :IS-NOT? "italy")`           - same as `(complement (where :country :IS? "italy"))`
 - `(where :country :NOT-STARTS-WITH? "ITA")`     - same as `(complement (where :country :STARTS-WITH? "ITA"))`
 - `(where :country :NOT-ENDS-WITH? "ly")`        - same as `(complement (where :country :ENDS-WITH? "ly"))`
@@ -133,6 +137,7 @@ throw _NullPointerException_ like they String.class counterparts),
 - `(where :country :NOT-IN? ["ITALY" "france"])`- same as `(complement (where :country :IN? ["ITALY" "france"]))`
 - `(where :country :NOT-MATCHES? #"united.*")`  - same as `(complement (where :country :MATCHES? #"united.*"))`
 - `(where :country :NOT-MATCHES-EXACTLY? #"united.*")`  - same as `(complement (where :country :MATCHES-EXACTLY? #"united.*"))`
+- `(where :filename :NOT-GLOB-MATCHES? "*.txt")` - same as `(complement (where :filename :NOT-GLOB-MATCHES? "*.txt"))`
 
 ## Built-in numerical comparators
 
@@ -171,6 +176,7 @@ properties:
 | :in?              | :not-in?              | :IN?              | :NOT-IN?               |
 | :matches?         | :not-matches?         | :MATCHES?         | :NOT-MATCHES?          |
 | :matches-exactly? | :not-matches-exactly? | :MATCHES-EXACTLY? | :NOT-MATCHES-EXACTLY?  |
+| :glob-matches?    | :not-glob-matches?    | :GLOB-MATCHES?    | :NOT-GLOB-MATCHES?     |
 |                   |                       |                   |                        |
 
 

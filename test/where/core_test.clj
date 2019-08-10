@@ -252,6 +252,26 @@
  "123"         :matches-exactly?   #"^\d+$"      truthy
  nil           :matches-exactly?   #"^\d+$"      falsey
  "123"         :matches-exactly?   nil           falsey
+
+ "value 123"   :glob-matches?      "*"           truthy
+ "v"           :glob-matches?      "?"           truthy
+ ""            :glob-matches?      "*"           truthy
+ ""            :glob-matches?      "?"           falsey
+ "value 123"   :glob-matches?      "value*"      truthy
+ "value 123"   :glob-matches?      "*value*"     truthy
+ "value 123"   :glob-matches?      "va?ue*123"   truthy
+ "value 123"   :glob-matches?      "va?ue*12"    falsey
+ "VALUE 123"   :glob-matches?      "va?ue*12*"   falsey
+ "value 123"   :glob-matches?      "value?1??"   truthy
+ "value.123"   :glob-matches?      "value.321"   falsey
+ "value.123"   :glob-matches?      "value.1*"    truthy
+ "value?123"   :glob-matches?      "value\\?*"   truthy
+ "c*"          :glob-matches?      "c\\*"        truthy
+ "C*"          :glob-matches?      nil           falsey
+ nil           :glob-matches?      "c*"          falsey
+
+ "value 123"   :not-glob-matches?  "value?321*"  truthy
+ "value 123"   :not-glob-matches?  "value?123*"  falsey
 )
 
 
@@ -303,7 +323,7 @@
 
 
 (tabular
- (fact "`where`: with DSL operators with strings"
+ (fact "`where`: with DSL case insensitive operators with strings"
 
        ((where ?operator ?target) ?value) => ?result
        ((where :value ?operator ?target) {:value ?value}) => ?result)
@@ -346,6 +366,26 @@
  "123"         :MATCHES-EXACTLY?   #"^\d+$"      truthy
  nil           :MATCHES-EXACTLY?   #"^\d+$"      falsey
  "123"         :MATCHES-EXACTLY?   nil           falsey
+
+ "VALUE 123"   :GLOB-MATCHES?      "*"           truthy
+ "V"           :GLOB-MATCHES?      "?"           truthy
+ ""            :GLOB-MATCHES?      "*"           truthy
+ ""            :GLOB-MATCHES?      "?"           falsey
+ "VALUE 123"   :GLOB-MATCHES?      "value*"      truthy
+ "VALUE 123"   :GLOB-MATCHES?      "*value*"     truthy
+ "VALUE 123"   :GLOB-MATCHES?      "va?ue*123"   truthy
+ "VALUE 123"   :GLOB-MATCHES?      "va?ue*12"    falsey
+ "VALUE 123"   :GLOB-MATCHES?      "va?ue*12*"   truthy
+ "VALUE 123"   :GLOB-MATCHES?      "value?1??"   truthy
+ "VALUE.123"   :GLOB-MATCHES?      "value.321"   falsey
+ "VALUE.123"   :GLOB-MATCHES?      "value.1*"    truthy
+ "VALUE?123"   :GLOB-MATCHES?      "value\\?*"   truthy
+ "C*"          :GLOB-MATCHES?      "c\\*"        truthy
+ "C*"          :GLOB-MATCHES?      nil           falsey
+ nil           :GLOB-MATCHES?      "c*"          falsey
+
+ "VALUE 123"   :NOT-GLOB-MATCHES?  "value?321*"  truthy
+ "VALUE 123"   :NOT-GLOB-MATCHES?  "value?123*"  falsey
 
  "value"       :IS?                "value"       truthy
  "VALUE"       :IS?                "value"       truthy
