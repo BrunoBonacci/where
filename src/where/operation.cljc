@@ -257,8 +257,8 @@
     (let [low (min v1 v2)
           high (max v1 v2)]
       (fn [item]
-        (when item
-          (<= low (extractor item) high))))
+        (when-let [i (extractor item)]
+          (<= low i high))))
     (constantly nil)))
 
 
@@ -269,8 +269,8 @@
     (let [low (min v1 v2)
           high (max v1 v2)]
       (fn [item]
-        (when item
-          (< low (extractor item) high))))
+        (when-let [i (extractor item)]
+          (< low i high))))
     (constantly nil)))
 
 
@@ -281,6 +281,6 @@
     (let [low (min v1 v2)
           high (max v1 v2)]
       (fn [item]
-        (when item
-          (or (= low (extractor item)) (< low (extractor item) high)))))
+        (when-let [i (extractor item)]
+          (or (= low i) (< low i high)))))
     (constantly nil)))
