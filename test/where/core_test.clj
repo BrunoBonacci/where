@@ -289,17 +289,34 @@
  34            :between?          [35 45]        falsey
  46            :between?          [35 45]        falsey
 
+  nil           :between?          [35 45]        falsey
+  46            :between?          [nil 45]       falsey
+  46            :between?          [35 nil]       falsey
+  46            :between?          nil            falsey
+
+
  42            :strictly-between? [35 45]        truthy
  35            :strictly-between? [35 45]        falsey
  45            :strictly-between? [35 45]        falsey
  34            :strictly-between? [35 45]        falsey
  46            :strictly-between? [35 45]        falsey
 
+  nil           :strictly-between? [35 45]        falsey
+  46            :strictly-between? [nil 45]       falsey
+  46            :strictly-between? [35 nil]       falsey
+  46            :strictly-between? nil            falsey
+
+
  42            :range?            [35 45]        truthy
  35            :range?            [35 45]        truthy
  45            :range?            [35 45]        falsey
  34            :range?            [35 45]        falsey
  46            :range?            [35 45]        falsey
+
+  nil           :range?            [35 45]        falsey
+  46            :range?            [nil 45]       falsey
+  46            :range?            [35 nil]       falsey
+  46            :range?            nil            falsey
  )
 
 
