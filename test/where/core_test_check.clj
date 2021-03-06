@@ -97,28 +97,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-  (def prop-all-ops-are-nil-safe
-    (prop/for-all
-     [[v1 op v2 op-not] (gen/bind (gen/elements ops)
-                                  (fn [[op input1 input2 op-not]]
-                                    (gen/tuple
-                                     input1
-                                     (gen/return op)
-                                     input2
-                                     (gen/return op-not)))) ]
+(def prop-all-ops-are-nil-safe
+  (prop/for-all
+    [[v1 op v2 op-not] (gen/bind (gen/elements ops)
+                         (fn [[op input1 input2 op-not]]
+                           (gen/tuple
+                             input1
+                             (gen/return op)
+                             input2
+                             (gen/return op-not)))) ]
 
-     (try
-       ((where identity op v2) v1)
-       true
-       (catch NullPointerException x
-         false))))
+    (try
+      ((where identity op v2) v1)
+      true
+      (catch NullPointerException x
+        false))))
 
 
 
-  (fact "All operations are nil safe" :test-check
-        (tc/quick-check TC_NUM prop-all-ops-are-nil-safe
-                        :max-size 50)
-        => (contains {:result true}))
+(fact "All operations are nil safe" :test-check
+  (tc/quick-check TC_NUM prop-all-ops-are-nil-safe
+    :max-size 50)
+  => (contains {:result true}))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -137,39 +137,39 @@
 
 (def prop-all-string-operation-support-case-insensitiveness
   (prop/for-all
-   [[v1 op v2 insentive-op] (gen/bind (gen/elements
-                                       (filter (fn [[_ _ _ _ insensitive]]
-                                                 insensitive)
-                                               ops))
+    [[v1 op v2 insentive-op] (gen/bind (gen/elements
+                                         (filter (fn [[_ _ _ _ insensitive]]
+                                                   insensitive)
+                                           ops))
 
-                                      (fn [[op input1 input2 _ insentive-op]]
-                                        (gen/tuple
-                                         (cond
-                                           (= op :in?)     gen-strings-or-nil
-                                           (= op :not-in?) gen-strings-or-nil
-                                           (= op :is?)     gen-strings-or-nil
-                                           (= op :is-not?) gen-strings-or-nil
-                                           :else           input1)
-                                         (gen/return op)
-                                         (cond
-                                           (= op :in?)     gen-list-of-strings
-                                           (= op :not-in?) gen-list-of-strings
-                                           (= op :is?)     gen-strings-or-nil
-                                           (= op :is-not?) gen-strings-or-nil
-                                           :else           input2)
-                                         (gen/return insentive-op)))) ]
+                               (fn [[op input1 input2 _ insentive-op]]
+                                 (gen/tuple
+                                   (cond
+                                     (= op :in?)     gen-strings-or-nil
+                                     (= op :not-in?) gen-strings-or-nil
+                                     (= op :is?)     gen-strings-or-nil
+                                     (= op :is-not?) gen-strings-or-nil
+                                     :else           input1)
+                                   (gen/return op)
+                                   (cond
+                                     (= op :in?)     gen-list-of-strings
+                                     (= op :not-in?) gen-list-of-strings
+                                     (= op :is?)     gen-strings-or-nil
+                                     (= op :is-not?) gen-strings-or-nil
+                                     :else           input2)
+                                   (gen/return insentive-op)))) ]
 
-   (=
-    ((where identity insentive-op v2) v1)
-    ((where identity op (lower v2)) (lower v1)))))
+    (=
+      ((where identity insentive-op v2) v1)
+      ((where identity op (lower v2)) (lower v1)))))
 
 
 
 (fact "All string operations must support case insenstiveness" :test-check
 
-        (tc/quick-check TC_NUM prop-all-string-operation-support-case-insensitiveness
-                        :max-size 50)
-        => (contains {:result true}))
+  (tc/quick-check TC_NUM prop-all-string-operation-support-case-insensitiveness
+    :max-size 50)
+  => (contains {:result true}))
 
 
 
@@ -184,24 +184,24 @@
 
 (def prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator
   (prop/for-all
-   [[v1 op v2 op-not] (gen/bind (gen/elements ops)
-                                (fn [[op input1 input2 op-not]]
-                                  (gen/tuple
-                                   input1
-                                   (gen/return op)
-                                   input2
-                                   (gen/return op-not)))) ]
+    [[v1 op v2 op-not] (gen/bind (gen/elements ops)
+                         (fn [[op input1 input2 op-not]]
+                           (gen/tuple
+                             input1
+                             (gen/return op)
+                             input2
+                             (gen/return op-not)))) ]
 
-   (=
-    (boolean ((where identity op v2) v1))
-    (boolean (not ((where identity op-not v2) v1))))))
+    (=
+      (boolean ((where identity op v2) v1))
+      (boolean (not ((where identity op-not v2) v1))))))
 
 
 
 (fact "Negation are just the complement of the forward operation" :test-check
 
-      (tc/quick-check
-       TC_NUM
-       prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator
-       :max-size 50)
-      => (contains {:result true}))
+  (tc/quick-check
+    TC_NUM
+    prop-all-NOT-operators-are-just-the-negation-of-the-positive-operator
+    :max-size 50)
+  => (contains {:result true}))

@@ -1,4 +1,4 @@
-(defproject com.brunobonacci/where "0.5.5"
+(defproject com.brunobonacci/where "0.5.6"
   :description "Human readable conditions and `filter` best companion."
   :url "https://github.com/BrunoBonacci/where"
 
@@ -28,7 +28,7 @@
              :cljs19 {:dependencies [[org.clojure/clojure "1.9.0"]
                                      [org.clojure/clojurescript "1.9.946"]]}
              :cljs110 {:dependencies [[org.clojure/clojure "1.10.1"]
-                                     [org.clojure/clojurescript "1.10.520"]]}}
+                                      [org.clojure/clojurescript "1.10.520"]]}}
   :cljsbuild
   {:builds
    [{:source-paths   ["src"]

@@ -11,8 +11,8 @@
 (defmulti operation
   (fn [_ op _]
     (if (some-> op name
-                ((fn [^String s]
-                   (.startsWith (.toLowerCase s) "not-"))))
+          ((fn [^String s]
+             (.startsWith (.toLowerCase s) "not-"))))
       :not
       op)))
 
@@ -28,7 +28,7 @@
   [extractor op value]
   (let [op (keyword (.substring (name op) 4))]
     (complement
-     (operation extractor op value))))
+      (operation extractor op value))))
 
 
 ;; TODO: :matches-date?
@@ -83,16 +83,16 @@
 (defmethod operation :IS-NOT?
   [extractor _ value]
   (complement
-   (operation extractor :IS? value)))
+    (operation extractor :IS? value)))
 
 
 
 (defmethod operation :IN?
   [extractor _ values]
   (let [vs (set
-            (filter identity
-                    (map (fn [^String s]
-                           (when s (.toLowerCase s))) values)))]
+             (filter identity
+               (map (fn [^String s]
+                      (when s (.toLowerCase s))) values)))]
     (fn [item]
       (let [^String s (extractor item)]
         (vs (when s (.toLowerCase s)))))))
@@ -180,14 +180,14 @@
   #?(:clj
      (when value
        (java.util.regex.Pattern/compile
-        (.pattern (re-pattern value))
-        java.util.regex.Pattern/CASE_INSENSITIVE))
+         (.pattern (re-pattern value))
+         java.util.regex.Pattern/CASE_INSENSITIVE))
 
      :cljs
      (when value
        (re-pattern
-        (str "(?i)"
-             (some-> (re-find #"^/(.*)/$" (str (re-pattern value))) second))))))
+         (str "(?i)"
+           (some-> (re-find #"^/(.*)/$" (str (re-pattern value))) second))))))
 
 
 

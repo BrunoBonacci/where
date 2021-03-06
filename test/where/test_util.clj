@@ -5,8 +5,8 @@
 
 (defn load-data []
   (->> (read-string (slurp (io/resource "users.edn")))
-       (map (partial zipmap [:name :user :age :country :active :scores]))
-       (map #(update-in % [:scores] (partial zipmap [:min :last :high])))))
+    (map (partial zipmap [:name :user :age :country :active :scores]))
+    (map #(update-in % [:scores] (partial zipmap [:min :last :high])))))
 
 
 (defn bootstrap []
@@ -16,4 +16,4 @@
 
 (def ptable
   (partial print-table
-     [:name :user :age :country :active :scores]))
+    [:name :user :age :country :active :scores]))
