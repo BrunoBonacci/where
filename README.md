@@ -35,7 +35,7 @@ which match a specific condition.
 
 To use this library add the following dependency in your `project.clj`
 
-    [com.brunobonacci/where "0.5.5"]
+    [com.brunobonacci/where "0.5.6"]
 
 Latest version: [![where](https://img.shields.io/clojars/v/com.brunobonacci/where.svg)](https://clojars.org/com.brunobonacci/where)
 
@@ -240,11 +240,12 @@ lein build-all
 
 Here are things I'm considering to add.
 
-  * more logical operators such as `XOR`
+  * more numerical comparators with (nil/type-safety such as: :> :< etc)
+  * date comparison (before, after, between)
   * support for composition with custom predicates `(where [:and f1 f2 f3])`
   * a set of useful/common extractors and comparators.
   * support for unary predicates
 
 ## License
 
-Copyright © 2015 - 2018 Bruno Bonacci - Distributed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0)
+Copyright © 2015 - 2021 Bruno Bonacci - Distributed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0)
