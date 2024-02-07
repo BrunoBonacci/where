@@ -222,7 +222,7 @@ For example:
 ;; => ("singer" "player")
 ```
 
-See more [examples](/doc/examples.md).
+See more [examples](./doc/examples.md).
 
 ## Development
 
