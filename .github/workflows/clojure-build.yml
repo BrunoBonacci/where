@@ -49,7 +49,7 @@ jobs:
 
 
     - name: Run tests
-      run: lein build-all
+      run: lein test
 
 
     - name: Build jar and/or uberjar
